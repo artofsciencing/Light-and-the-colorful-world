@@ -1,0 +1,254 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Interactive Science Tool – Light</title>
+<style>
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    background:#d9f2d9;
+    margin:0;
+}
+header{
+    background:#a8d5a2;
+    padding:20px;
+    text-align:center;
+    font-size:24px;
+    font-weight:bold;
+}
+nav{
+    background:#c8e6c9;
+    padding:10px;
+}
+nav a{
+    margin-right:15px;
+    text-decoration:none;
+    font-weight:bold;
+    color:#004d40;
+}
+section{
+    padding:20px;
+    border-bottom:1px solid #bbb;
+}
+h2{
+    color:#1b5e20;
+}
+.box{
+    background:white;
+    padding:15px;
+    border-radius:8px;
+    margin-top:10px;
+}
+.formula{
+    background:#f0fff0;
+    padding:10px;
+    border-left:4px solid green;
+    font-weight:bold;
+}
+.quiz{
+    background:#fffde7;
+    padding:10px;
+    border-radius:6px;
+}
+button{
+    margin-top:5px;
+}
+footer{
+    background:#a8d5a2;
+    text-align:center;
+    padding:10px;
+}
+.counter{
+    font-weight:bold;
+}
+</style>
+
+<script>
+// Visitor counter using localStorage
+window.onload=function(){
+    let visits = localStorage.getItem("visits");
+    if(!visits){ visits=0; }
+    visits++;
+    localStorage.setItem("visits",visits);
+    document.getElementById("visitorCount").innerText=visits;
+}
+
+// Quiz checker
+function checkAnswer(q,correct){
+    let options=document.getElementsByName(q);
+    let selected=null;
+    for(let i=0;i<options.length;i++){
+        if(options[i].checked){ selected=options[i].value;}
+    }
+    if(selected===correct){
+        alert("Correct!");
+    }else{
+        alert("Try again!");
+    }
+}
+</script>
+
+</head>
+
+<body>
+
+<header>
+Interactive Science Tool – LIGHT
+</header>
+
+<nav>
+<a href="#light">What is Light</a>
+<a href="#travel">How Light Travels</a>
+<a href="#reflection">Reflection</a>
+<a href="#mirrors">Mirrors</a>
+<a href="#formula">Formulas</a>
+<a href="#numerical">Numerical</a>
+<a href="#applications">Applications</a>
+</nav>
+
+<section id="light">
+<h2>1. What is Light?</h2>
+<div class="box">
+Light is a form of energy that allows us to see objects.
+<br><br>
+<b>Luminous objects:</b> Sun, stars<br>
+<b>Non‑luminous objects:</b> Moon, book
+</div>
+
+<div class="quiz">
+<b>Quiz</b><br>
+Which object produces its own light?<br>
+<input type="radio" name="q1" value="Moon">Moon<br>
+<input type="radio" name="q1" value="Sun">Sun<br>
+<input type="radio" name="q1" value="Book">Book<br>
+<button onclick="checkAnswer('q1','Sun')">Check</button>
+</div>
+</section>
+
+<section id="travel">
+<h2>2. How Light Travels</h2>
+<div class="box">
+Light travels in straight lines. This is called <b>rectilinear propagation of light</b>.
+<br><br>
+Example: Formation of shadows.
+</div>
+
+<svg width="300" height="120">
+<circle cx="40" cy="60" r="20" fill="orange"/>
+<rect x="140" y="30" width="20" height="60" fill="black"/>
+<polygon points="160,30 300,0 300,120 160,90" fill="gray"/>
+</svg>
+
+<div class="quiz">
+<b>Quiz</b><br>
+Why do shadows form?<br>
+<input type="radio" name="q2" value="straight">Light travels straight<br>
+<input type="radio" name="q2" value="curve">Light curves<br>
+<button onclick="checkAnswer('q2','straight')">Check</button>
+</div>
+</section>
+
+<section id="reflection">
+<h2>3. Reflection of Light</h2>
+<div class="box">
+Reflection is the bouncing back of light from a surface.
+</div>
+
+<div class="formula">
+Law of Reflection:<br>
+Angle of incidence = Angle of reflection
+</div>
+
+<svg width="300" height="160">
+<line x1="150" y1="0" x2="150" y2="160" stroke="black"/>
+<line x1="50" y1="50" x2="150" y2="80" stroke="red" stroke-width="2"/>
+<line x1="150" y1="80" x2="250" y2="50" stroke="blue" stroke-width="2"/>
+</svg>
+
+<div class="quiz">
+<b>Quiz</b><br>
+If angle of incidence is 30°, the angle of reflection is:<br>
+<input type="radio" name="q3" value="30">30°<br>
+<input type="radio" name="q3" value="60">60°<br>
+<button onclick="checkAnswer('q3','30')">Check</button>
+</div>
+</section>
+
+<section id="mirrors">
+<h2>4. Types of Mirrors</h2>
+
+<div class="box">
+<b>Plane Mirror:</b> Flat surface mirror.<br>
+Image is virtual, upright and same size.
+</div>
+
+<div class="box">
+<b>Concave Mirror:</b> Curves inward. Used in shaving mirrors.
+</div>
+
+<div class="box">
+<b>Convex Mirror:</b> Curves outward. Used in rear view mirrors.
+</div>
+
+<div class="quiz">
+<b>Quiz</b><br>
+Which mirror is used in cars?<br>
+<input type="radio" name="q4" value="convex">Convex<br>
+<input type="radio" name="q4" value="concave">Concave<br>
+<button onclick="checkAnswer('q4','convex')">Check</button>
+</div>
+
+</section>
+
+<section id="formula">
+<h2>5. Important Formulas</h2>
+
+<div class="formula">
+Mirror Formula:
+<br>
+1/f = 1/v + 1/u
+</div>
+
+<div class="formula">
+Magnification:
+<br>
+m = v / u
+</div>
+
+</section>
+
+<section id="numerical">
+<h2>6. Numerical Example</h2>
+
+<div class="box">
+Object distance = 20 cm<br>
+Focal length = 10 cm<br><br>
+
+Using mirror formula:<br><br>
+
+1/f = 1/v + 1/u<br>
+1/10 = 1/v + 1/20<br>
+1/v = 1/20<br>
+v = 20 cm
+</div>
+
+</section>
+
+<section id="applications">
+<h2>7. Real Life Applications</h2>
+
+<div class="box">
+Rear view mirror → Convex mirror<br>
+Solar cooker → Concave mirror<br>
+Dentist mirror → Concave mirror
+</div>
+
+</section>
+
+<footer>
+Visitors to this page: <span id="visitorCount" class="counter"></span>
+</footer>
+
+</body>
+</html>

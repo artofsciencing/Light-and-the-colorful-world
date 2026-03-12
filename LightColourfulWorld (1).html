@@ -1,0 +1,2540 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌈 Light & Colourful World | Science Explorer</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Baloo+2:wght@400;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#d4e8c2;--bg2:#c6ddb0;--sidebar:#1e4d2b;--sidebar-hover:#2d6a3f;--card:#f8f4e6;
+  --card2:#eef7e4;--accent:#3a7d44;--accent2:#5aab6d;--gold:#c9860a;--goldbg:#fff8e1;
+  --formula:#fffbe6;--formula-border:#e8b84b;--quiz:#e8f5e9;--correct:#27ae60;
+  --wrong:#e74c3c;--text:#1a2e1e;--text2:#2d4a32;--shadow:rgba(30,77,43,0.15);
+  --heading-font:'Baloo 2',cursive;--body-font:'Nunito',sans-serif;--code-font:'Fira Code',monospace;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--body-font);font-size:13px;background:var(--bg);color:var(--text);display:flex;flex-direction:column;min-height:100vh;overflow-x:hidden;}
+/* ========= HEADER ========= */
+#top-header{background:linear-gradient(135deg,#1b4332 0%,#2d6a4f 40%,#40916c 100%);color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:1000;box-shadow:0 3px 15px rgba(0,0,0,0.3);}
+.header-title{display:flex;align-items:center;gap:10px;}
+.header-title h1{font-family:var(--heading-font);font-size:22px;font-weight:800;letter-spacing:0.5px;text-shadow:1px 1px 3px rgba(0,0,0,0.3);}
+.header-title .subtitle{font-size:11px;opacity:0.85;font-style:italic;}
+.header-right{display:flex;align-items:center;gap:16px;}
+.visitor-box{background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.3);border-radius:20px;padding:5px 14px;font-size:12px;display:flex;align-items:center;gap:6px;backdrop-filter:blur(5px);}
+.visitor-box span{font-weight:700;font-size:14px;color:#b7e4c7;}
+.score-btn{background:#40916c;border:none;color:#fff;padding:6px 14px;border-radius:20px;cursor:pointer;font-family:var(--body-font);font-size:12px;font-weight:700;transition:all .2s;}
+.score-btn:hover{background:#52b788;transform:translateY(-1px);}
+/* ========= LAYOUT ========= */
+#app{display:flex;flex:1;}
+/* ========= SIDEBAR ========= */
+#sidebar{width:230px;min-width:230px;background:var(--sidebar);color:#d8f3dc;position:sticky;top:55px;height:calc(100vh - 55px);overflow-y:auto;padding:10px 0;transition:width .3s;flex-shrink:0;}
+#sidebar::-webkit-scrollbar{width:4px;}
+#sidebar::-webkit-scrollbar-thumb{background:#40916c;border-radius:2px;}
+.sidebar-section-label{font-size:10px;text-transform:uppercase;letter-spacing:1.5px;color:#74c69d;padding:12px 16px 4px;font-weight:700;}
+.nav-item{display:flex;align-items:center;gap:9px;padding:9px 16px;cursor:pointer;transition:all .2s;border-left:3px solid transparent;font-size:12.5px;font-weight:600;}
+.nav-item:hover{background:var(--sidebar-hover);border-left-color:#74c69d;}
+.nav-item.active{background:var(--sidebar-hover);border-left-color:#b7e4c7;color:#b7e4c7;}
+.nav-item .nav-icon{font-size:16px;width:22px;text-align:center;}
+.nav-item .nav-dot{width:8px;height:8px;border-radius:50%;background:#555;margin-left:auto;transition:background .3s;}
+.nav-item.visited .nav-dot{background:#74c69d;}
+.nav-item.active .nav-dot{background:#b7e4c7;}
+.progress-bar-sidebar{margin:8px 16px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;}
+.progress-bar-fill{height:100%;background:linear-gradient(90deg,#52b788,#b7e4c7);border-radius:2px;transition:width .5s;}
+.sidebar-footer{padding:12px 16px;border-top:1px solid rgba(255,255,255,0.1);margin-top:8px;}
+.overall-progress{font-size:11px;color:#74c69d;margin-bottom:6px;}
+/* ========= MAIN CONTENT ========= */
+#main-content{flex:1;padding:20px;overflow-y:auto;max-width:calc(100vw - 230px);}
+.section{display:none;animation:fadeIn .4s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+/* ========= CARDS ========= */
+.section-hero{background:linear-gradient(135deg,#1b4332,#2d6a4f);color:#fff;border-radius:16px;padding:24px;margin-bottom:20px;position:relative;overflow:hidden;}
+.section-hero::before{content:'';position:absolute;right:-20px;top:-20px;width:120px;height:120px;background:rgba(255,255,255,0.05);border-radius:50%;}
+.section-hero::after{content:'';position:absolute;right:20px;bottom:-30px;width:80px;height:80px;background:rgba(255,255,255,0.05);border-radius:50%;}
+.section-hero h2{font-family:var(--heading-font);font-size:24px;font-weight:800;margin-bottom:6px;}
+.section-hero p{font-size:13px;opacity:0.9;max-width:700px;line-height:1.7;}
+.card{background:var(--card);border-radius:12px;padding:18px;margin-bottom:16px;box-shadow:0 2px 10px var(--shadow);border:1px solid rgba(100,180,100,0.2);}
+.card h3{font-family:var(--heading-font);font-size:17px;font-weight:700;color:var(--accent);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.card p,.card li{font-size:13px;line-height:1.75;color:var(--text2);}
+.card ul{padding-left:20px;margin-top:6px;}
+.card ul li{margin-bottom:4px;}
+.card-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.card-row.three{grid-template-columns:1fr 1fr 1fr;}
+@media(max-width:768px){.card-row,.card-row.three{grid-template-columns:1fr;}}
+/* ========= FORMULA BOXES ========= */
+.formula-box{background:var(--formula);border:2px solid var(--formula-border);border-radius:10px;padding:14px 18px;margin:12px 0;text-align:center;}
+.formula-box .formula-label{font-size:11px;color:var(--gold);font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;}
+.formula-box .formula{font-family:var(--code-font);font-size:16px;font-weight:600;color:#7a4800;letter-spacing:0.5px;}
+.formula-box .formula-note{font-size:12px;color:#8b6914;margin-top:6px;font-style:italic;}
+/* ========= EXAMPLE BOXES ========= */
+.example-box{background:#e8f4fd;border-left:4px solid #3498db;border-radius:0 10px 10px 0;padding:14px;margin:12px 0;}
+.example-box .ex-title{font-weight:800;color:#1a5276;font-size:13px;margin-bottom:8px;}
+.example-box .ex-step{font-size:12.5px;color:#1a3a5c;margin-bottom:4px;padding-left:10px;}
+.example-box .ex-answer{font-family:var(--code-font);font-size:13px;font-weight:600;color:#1a5276;background:#d6eaf8;padding:6px 10px;border-radius:6px;margin-top:8px;display:inline-block;}
+/* ========= FACT BOXES ========= */
+.fact-box{background:linear-gradient(135deg,#fff9e6,#fff3cc);border:1px solid #f39c12;border-radius:10px;padding:12px 16px;margin:10px 0;display:flex;align-items:flex-start;gap:10px;}
+.fact-box .fact-icon{font-size:20px;flex-shrink:0;}
+.fact-box p{font-size:12.5px;color:#7d5a00;line-height:1.6;}
+/* ========= DIAGRAM AREA ========= */
+.diagram-container{background:#fff;border-radius:12px;padding:12px;border:1px solid rgba(100,180,100,0.3);margin:12px 0;text-align:center;}
+.diagram-container canvas{border-radius:8px;max-width:100%;}
+.diagram-label{font-size:11px;color:#555;margin-top:6px;font-style:italic;}
+.sim-controls{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;padding:10px;background:#f0faf4;border-radius:8px;}
+.sim-controls label{font-size:12px;font-weight:700;color:var(--accent);}
+.sim-controls input[type=range]{width:150px;accent-color:var(--accent);}
+.sim-controls select{font-size:12px;padding:4px 8px;border-radius:6px;border:1px solid #ccc;font-family:var(--body-font);background:#fff;}
+.sim-controls button{background:var(--accent);color:#fff;border:none;padding:6px 14px;border-radius:8px;cursor:pointer;font-family:var(--body-font);font-size:12px;font-weight:700;transition:all .2s;}
+.sim-controls button:hover{background:var(--accent2);}
+.sim-output{background:#1a2e1e;color:#b7e4c7;font-family:var(--code-font);font-size:12px;padding:8px 12px;border-radius:8px;margin-top:8px;line-height:1.8;}
+/* ========= QUIZ ========= */
+.quiz-section{background:var(--quiz);border:2px solid #a8d5a2;border-radius:14px;padding:20px;margin-top:20px;}
+.quiz-header{display:flex;align-items:center;gap:10px;margin-bottom:16px;}
+.quiz-header h4{font-family:var(--heading-font);font-size:18px;font-weight:800;color:#155724;}
+.quiz-badge{background:#155724;color:#fff;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;}
+.quiz-q{background:#fff;border-radius:10px;padding:14px;margin-bottom:12px;box-shadow:0 1px 6px rgba(0,0,0,0.06);}
+.quiz-q .q-text{font-size:13px;font-weight:700;color:#1a2e1e;margin-bottom:10px;line-height:1.5;}
+.quiz-options{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+@media(max-width:600px){.quiz-options{grid-template-columns:1fr;}}
+.quiz-opt{background:#f8f9fa;border:2px solid #dee2e6;border-radius:8px;padding:9px 14px;cursor:pointer;font-size:12.5px;transition:all .2s;text-align:left;font-family:var(--body-font);color:#333;}
+.quiz-opt:hover{background:#e8f5e9;border-color:var(--accent2);}
+.quiz-opt.correct{background:#d4edda;border-color:var(--correct);color:#155724;font-weight:700;}
+.quiz-opt.wrong{background:#f8d7da;border-color:var(--wrong);color:#721c24;}
+.quiz-opt.reveal{pointer-events:none;}
+.quiz-explanation{font-size:12px;color:#555;padding:8px 12px;background:#f0f0f0;border-radius:6px;margin-top:8px;display:none;line-height:1.6;}
+.quiz-explanation.show{display:block;}
+.quiz-score-bar{background:#fff;border-radius:10px;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;margin-top:12px;}
+.quiz-score-bar span{font-weight:700;font-size:13px;color:var(--accent);}
+.quiz-next-btn{background:var(--accent);color:#fff;border:none;padding:8px 20px;border-radius:10px;cursor:pointer;font-family:var(--body-font);font-size:13px;font-weight:700;transition:all .2s;}
+.quiz-next-btn:hover{background:var(--accent2);transform:translateY(-1px);}
+/* ========= TAGS / LABELS ========= */
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700;margin:2px;}
+.tag.green{background:#d4edda;color:#155724;}
+.tag.blue{background:#cce5ff;color:#004085;}
+.tag.orange{background:#fff3cd;color:#856404;}
+.tag.red{background:#f8d7da;color:#721c24;}
+.tag.purple{background:#e2d9f3;color:#4a148c;}
+/* ========= HIGHLIGHT ========= */
+.highlight{background:linear-gradient(120deg,#a8edea,#fed6e3);border-radius:4px;padding:0 4px;}
+.key-term{font-weight:800;color:var(--accent);font-style:italic;}
+/* ========= SECTION DIVIDER ========= */
+.section-divider{border:none;border-top:2px dashed rgba(100,180,100,0.3);margin:20px 0;}
+/* ========= SPECTRUM BAR ========= */
+.spectrum-bar{height:30px;border-radius:8px;background:linear-gradient(90deg,#8b00ff,#4400ff,#0000ff,#0088ff,#00cccc,#00ff00,#aaff00,#ffff00,#ffa500,#ff4400,#ff0000);margin:10px 0;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
+/* ========= HOME PAGE ========= */
+.home-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-top:16px;}
+.home-card{background:var(--card);border-radius:14px;padding:18px;cursor:pointer;transition:all .25s;border:2px solid transparent;text-align:center;box-shadow:0 2px 8px var(--shadow);}
+.home-card:hover{transform:translateY(-4px);border-color:var(--accent2);box-shadow:0 8px 20px var(--shadow);}
+.home-card .hc-icon{font-size:36px;margin-bottom:10px;}
+.home-card .hc-title{font-family:var(--heading-font);font-size:15px;font-weight:700;color:var(--accent);margin-bottom:4px;}
+.home-card .hc-desc{font-size:12px;color:#555;line-height:1.5;}
+/* ========= ANALYTICS ========= */
+#analytics-panel{background:#1a2e1e;color:#b7e4c7;padding:16px;border-radius:12px;margin-top:20px;}
+#analytics-panel h4{font-family:var(--heading-font);color:#74c69d;margin-bottom:12px;font-size:16px;}
+.analytics-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:10px;}
+.analytics-card{background:rgba(255,255,255,0.08);border-radius:8px;padding:10px;text-align:center;}
+.analytics-card .ac-num{font-size:22px;font-weight:800;color:#52b788;font-family:var(--heading-font);}
+.analytics-card .ac-label{font-size:11px;color:#74c69d;margin-top:2px;}
+/* ========= SVG DIAGRAMS ========= */
+svg.diagram{max-width:100%;border-radius:8px;}
+/* ========= TABLE ========= */
+.info-table{width:100%;border-collapse:collapse;font-size:12.5px;margin:10px 0;}
+.info-table th{background:#2d6a4f;color:#fff;padding:8px 12px;text-align:left;font-weight:700;}
+.info-table td{padding:8px 12px;border-bottom:1px solid #ddd;line-height:1.5;}
+.info-table tr:nth-child(even){background:#f0faf4;}
+.info-table tr:hover{background:#e8f5e9;}
+/* ========= SCROLL TO TOP ========= */
+#scroll-top{position:fixed;bottom:20px;right:20px;background:var(--accent);color:#fff;border:none;border-radius:50%;width:40px;height:40px;font-size:18px;cursor:pointer;box-shadow:0 3px 12px rgba(0,0,0,0.2);transition:all .2s;z-index:999;display:none;}
+#scroll-top:hover{background:var(--accent2);transform:translateY(-2px);}
+/* ========= TOOLTIP ========= */
+.tooltip{position:relative;cursor:help;}
+.tooltip::after{content:attr(data-tip);position:absolute;bottom:125%;left:50%;transform:translateX(-50%);background:#1a2e1e;color:#d8f3dc;padding:6px 10px;border-radius:6px;font-size:11px;white-space:nowrap;z-index:100;opacity:0;pointer-events:none;transition:opacity .2s;}
+.tooltip:hover::after{opacity:1;}
+/* ========= RESPONSIVE ========= */
+@media(max-width:600px){
+  #sidebar{width:0;min-width:0;overflow:hidden;}
+  #main-content{max-width:100vw;padding:12px;}
+  .card-row{grid-template-columns:1fr;}
+  .section-hero h2{font-size:18px;}
+}
+/* ========= COLOURED CALLOUT ========= */
+.callout{border-radius:10px;padding:12px 16px;margin:10px 0;font-size:12.5px;line-height:1.6;}
+.callout.green{background:#d4edda;border-left:4px solid #28a745;color:#155724;}
+.callout.blue{background:#cce5ff;border-left:4px solid #007bff;color:#004085;}
+.callout.orange{background:#fff3cd;border-left:4px solid #ffc107;color:#856404;}
+.callout.pink{background:#fce4ec;border-left:4px solid #e91e63;color:#880e4f;}
+/* ========= EYE DIAGRAM ========= */
+.eye-part-label{font-size:11px;fill:#1a2e1e;font-weight:600;}
+/* ========= ANIMATED RAYS ========= */
+@keyframes rayMove{0%{opacity:0;}50%{opacity:1;}100%{opacity:0;}}
+.animated-ray{animation:rayMove 2s infinite;}
+/* ========= LOADING SPINNER ========= */
+.spinner{width:30px;height:30px;border:3px solid #ccc;border-top-color:var(--accent);border-radius:50%;animation:spin .8s linear infinite;margin:auto;}
+@keyframes spin{to{transform:rotate(360deg);}}
+</style>
+</head>
+<body>
+
+<!-- ===== TOP HEADER ===== -->
+<div id="top-header">
+  <div class="header-title">
+    <div>
+      <h1>🌈 Light &amp; Colourful World</h1>
+      <div class="subtitle">Your Interactive Science Explorer · Optics &amp; Light</div>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="visitor-box">
+      👁️ Visitors: <span id="visitor-count">0</span>
+    </div>
+    <button class="score-btn" onclick="showScoreBoard()">🏆 My Scores</button>
+  </div>
+</div>
+
+<!-- ===== MAIN APP ===== -->
+<div id="app">
+
+<!-- ===== SIDEBAR ===== -->
+<nav id="sidebar">
+  <div class="sidebar-section-label">📚 Topics</div>
+  <div class="nav-item active" data-section="home" onclick="navigate('home',this)">
+    <span class="nav-icon">🏠</span>Home<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s1" onclick="navigate('s1',this)">
+    <span class="nav-icon">💡</span>What is Light?<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s2" onclick="navigate('s2',this)">
+    <span class="nav-icon">📐</span>Ray Optics<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s3" onclick="navigate('s3',this)">
+    <span class="nav-icon">🪞</span>Reflection<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s4" onclick="navigate('s4',this)">
+    <span class="nav-icon">🔀</span>Refraction<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s5" onclick="navigate('s5',this)">
+    <span class="nav-icon">💎</span>Total Internal Reflection<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s6" onclick="navigate('s6',this)">
+    <span class="nav-icon">🌈</span>Spectrum &amp; Prism<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s7" onclick="navigate('s7',this)">
+    <span class="nav-icon">🌊</span>Interference &amp; Diffraction<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s8" onclick="navigate('s8',this)">
+    <span class="nav-icon">☁️</span>Scattering &amp; Mirages<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s9" onclick="navigate('s9',this)">
+    <span class="nav-icon">🔬</span>Raman Effect<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s10" onclick="navigate('s10',this)">
+    <span class="nav-icon">👁️</span>Human Eye<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s11" onclick="navigate('s11',this)">
+    <span class="nav-icon">👓</span>Eye Defects<span class="nav-dot"></span>
+  </div>
+  <div class="nav-item" data-section="s12" onclick="navigate('s12',this)">
+    <span class="nav-icon">🎨</span>Colour &amp; Light<span class="nav-dot"></span>
+  </div>
+  <div class="sidebar-section-label">📊 Progress</div>
+  <div style="padding:8px 16px;">
+    <div class="overall-progress">Sections visited: <span id="visit-count">0</span>/13</div>
+    <div class="progress-bar-sidebar"><div class="progress-bar-fill" id="progress-fill" style="width:0%"></div></div>
+    <div style="font-size:11px;color:#74c69d;margin-top:4px;">Quiz Score: <span id="sidebar-score">0</span> pts</div>
+  </div>
+</nav>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main id="main-content">
+
+<!-- =============================== HOME =============================== -->
+<div class="section active" id="home">
+  <div class="section-hero">
+    <h2>🌈 Welcome to Light &amp; Colourful World!</h2>
+    <p>Discover the amazing science of light! From why the sky is blue 🌤️ to how your eyes see 👁️, from rainbow magic 🌈 to the secrets of mirrors and lenses 🔭 — this is your complete guide to the wonderful world of light. Click any topic below to begin your journey!</p>
+  </div>
+  <div class="home-grid" id="home-grid">
+    <div class="home-card" onclick="navigate('s1',null)"><div class="hc-icon">💡</div><div class="hc-title">What is Light?</div><div class="hc-desc">Nature, speed, sources &amp; types of light</div></div>
+    <div class="home-card" onclick="navigate('s2',null)"><div class="hc-icon">📐</div><div class="hc-title">Ray Optics</div><div class="hc-desc">Geometry of light rays, angles &amp; normals</div></div>
+    <div class="home-card" onclick="navigate('s3',null)"><div class="hc-icon">🪞</div><div class="hc-title">Reflection</div><div class="hc-desc">Mirrors: plane, concave &amp; convex with simulations</div></div>
+    <div class="home-card" onclick="navigate('s4',null)"><div class="hc-icon">🔀</div><div class="hc-title">Refraction</div><div class="hc-desc">Snell's Law, lenses &amp; image formation</div></div>
+    <div class="home-card" onclick="navigate('s5',null)"><div class="hc-icon">💎</div><div class="hc-title">Total Internal Reflection</div><div class="hc-desc">Critical angle, diamonds &amp; optical fibres</div></div>
+    <div class="home-card" onclick="navigate('s6',null)"><div class="hc-icon">🌈</div><div class="hc-title">Spectrum &amp; Prism</div><div class="hc-desc">Dispersion, VIBGYOR &amp; rainbow formation</div></div>
+    <div class="home-card" onclick="navigate('s7',null)"><div class="hc-icon">🌊</div><div class="hc-title">Interference &amp; Diffraction</div><div class="hc-desc">Wave nature of light, colourful patterns</div></div>
+    <div class="home-card" onclick="navigate('s8',null)"><div class="hc-icon">☁️</div><div class="hc-title">Scattering &amp; Mirages</div><div class="hc-desc">Blue sky, red sunset &amp; desert mirages</div></div>
+    <div class="home-card" onclick="navigate('s9',null)"><div class="hc-icon">🔬</div><div class="hc-title">Raman Effect</div><div class="hc-desc">India's Nobel Prize discovery in light</div></div>
+    <div class="home-card" onclick="navigate('s10',null)"><div class="hc-icon">👁️</div><div class="hc-title">Human Eye</div><div class="hc-desc">Structure, accommodation &amp; vision</div></div>
+    <div class="home-card" onclick="navigate('s11',null)"><div class="hc-icon">👓</div><div class="hc-title">Eye Defects</div><div class="hc-desc">Myopia, hypermetropia &amp; corrections</div></div>
+    <div class="home-card" onclick="navigate('s12',null)"><div class="hc-icon">🎨</div><div class="hc-title">Colour &amp; Light</div><div class="hc-desc">Primary colours, mixing &amp; colour of objects</div></div>
+  </div>
+  <div id="analytics-panel" style="margin-top:24px;">
+    <h4>📊 Usage Analytics</h4>
+    <div class="analytics-grid">
+      <div class="analytics-card"><div class="ac-num" id="an-visits">0</div><div class="ac-label">Total Visits</div></div>
+      <div class="analytics-card"><div class="ac-num" id="an-sections">0</div><div class="ac-label">Sections Explored</div></div>
+      <div class="analytics-card"><div class="ac-num" id="an-quizzes">0</div><div class="ac-label">Quizzes Taken</div></div>
+      <div class="analytics-card"><div class="ac-num" id="an-score">0</div><div class="ac-label">Total Quiz Score</div></div>
+      <div class="analytics-card"><div class="ac-num" id="an-streak">0</div><div class="ac-label">Correct Answers</div></div>
+      <div class="analytics-card"><div class="ac-num" id="an-time">0m</div><div class="ac-label">Time Spent</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S1: WHAT IS LIGHT =============================== -->
+<div class="section" id="s1">
+  <div class="section-hero">
+    <h2>💡 What is Light?</h2>
+    <p>Light is a form of <strong>energy</strong> that makes things visible to our eyes! It's an electromagnetic wave that travels incredibly fast. Without light, we wouldn't be able to see anything at all!</p>
+  </div>
+
+  <div class="card">
+    <h3>🌟 Nature of Light</h3>
+    <p>Light has a <span class="key-term">dual nature</span> — it behaves both as a <strong>wave</strong> (like ripples in water) and as tiny packets of energy called <strong>photons</strong> (particles). This is one of the most fascinating discoveries in science!</p>
+    <div class="card-row" style="margin-top:12px;">
+      <div class="callout green"><strong>🌊 Wave Nature:</strong> Light travels as waves and shows effects like interference, diffraction, and polarization.</div>
+      <div class="callout blue"><strong>⚡ Particle Nature:</strong> Light is made of photons (energy packets) — shown by the photoelectric effect.</div>
+    </div>
+    <div class="fact-box" style="margin-top:10px;">
+      <div class="fact-icon">⚡</div>
+      <p><strong>Amazing Fact:</strong> Light travels at <strong>3 × 10⁸ m/s</strong> (300,000 km per second) in vacuum — that's fast enough to travel around the Earth <strong>7.5 times</strong> in just one second!</p>
+    </div>
+  </div>
+
+  <div class="card-row">
+    <div class="card">
+      <h3>🕯️ Sources of Light</h3>
+      <p><strong>Luminous objects</strong> produce their own light:</p>
+      <ul>
+        <li>🌞 The Sun (natural)</li>
+        <li>⭐ Stars (natural)</li>
+        <li>🔥 Fire / Candle (natural)</li>
+        <li>💡 Light bulb (artificial)</li>
+        <li>🌩️ Lightning (natural)</li>
+      </ul>
+      <p style="margin-top:8px;"><strong>Non-luminous objects</strong> reflect light from luminous sources:</p>
+      <ul>
+        <li>🌙 Moon (reflects sunlight)</li>
+        <li>📖 A book (reflects room light)</li>
+        <li>🪨 Rocks, trees, you!</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>📡 Electromagnetic Spectrum</h3>
+      <p>Visible light is just a tiny part of the huge electromagnetic spectrum! Our eyes can only detect wavelengths from about <strong>400 nm to 700 nm</strong>.</p>
+      <div style="margin:12px 0;">
+        <div style="font-size:11px;display:flex;justify-content:space-between;margin-bottom:2px;color:#555;">
+          <span>Gamma Rays</span><span>X-Rays</span><span>UV</span><span>Visible</span><span>Infrared</span><span>Microwaves</span><span>Radio</span>
+        </div>
+        <div style="height:24px;border-radius:8px;background:linear-gradient(90deg,#ff00ff,#8800ff,#0000ff,#0066ff,#00cccc,#00ff88,#44ff00,#aaff00,#ffff00,#ffaa00,#ff4400,#ff0000,#cc0000);box-shadow:0 2px 6px rgba(0,0,0,0.2);"></div>
+        <div style="font-size:11px;text-align:center;margin-top:4px;color:#555;">← shorter wavelength · higher energy &nbsp;&nbsp;&nbsp; longer wavelength · lower energy →</div>
+      </div>
+      <p style="font-size:12px;color:#555;">Visible light (the rainbow colours) is the electromagnetic radiation that human eyes can detect!</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>⚡ Speed, Wavelength &amp; Frequency</h3>
+    <p>Light waves have three important properties that are mathematically related:</p>
+    <div class="formula-box">
+      <div class="formula-label">🔑 Key Relationship</div>
+      <div class="formula">c = f × λ</div>
+      <div class="formula-note">c = speed of light (3×10⁸ m/s) &nbsp;|&nbsp; f = frequency (Hz) &nbsp;|&nbsp; λ = wavelength (m)</div>
+    </div>
+    <div class="example-box">
+      <div class="ex-title">📝 Numerical Example</div>
+      <div class="ex-step">Q: Yellow light has a wavelength of 580 nm. Find its frequency.</div>
+      <div class="ex-step">Given: λ = 580 nm = 580 × 10⁻⁹ m, c = 3 × 10⁸ m/s</div>
+      <div class="ex-step">Formula: f = c/λ</div>
+      <div class="ex-step">f = (3 × 10⁸) / (580 × 10⁻⁹)</div>
+      <div class="ex-answer">∴ f ≈ 5.17 × 10¹⁴ Hz</div>
+    </div>
+    <table class="info-table">
+      <tr><th>Colour</th><th>Wavelength (nm)</th><th>Frequency (×10¹⁴ Hz)</th></tr>
+      <tr><td>🟣 Violet</td><td>380–450</td><td>6.7–7.9</td></tr>
+      <tr><td>🔵 Blue</td><td>450–495</td><td>6.1–6.7</td></tr>
+      <tr><td>🟢 Green</td><td>495–570</td><td>5.3–6.1</td></tr>
+      <tr><td>🟡 Yellow</td><td>570–590</td><td>5.1–5.3</td></tr>
+      <tr><td>🟠 Orange</td><td>590–620</td><td>4.8–5.1</td></tr>
+      <tr><td>🔴 Red</td><td>620–750</td><td>4.0–4.8</td></tr>
+    </table>
+  </div>
+
+  <div class="card">
+    <h3>🌊 Properties of Light</h3>
+    <div class="card-row three">
+      <div class="callout green"><strong>📏 Travels in straight lines</strong> — that's why shadows are formed!</div>
+      <div class="callout blue"><strong>🌌 Travels fastest in vacuum</strong> — slows down in glass, water, etc.</div>
+      <div class="callout orange"><strong>🔄 Transverse wave</strong> — vibrations are perpendicular to direction of travel.</div>
+    </div>
+    <div class="card-row three">
+      <div class="callout pink"><strong>🔁 Reflection</strong> — bounces off smooth surfaces.</div>
+      <div class="callout green"><strong>↪️ Refraction</strong> — bends when changing medium.</div>
+      <div class="callout blue"><strong>🌈 Dispersion</strong> — splits into colours through a prism.</div>
+    </div>
+  </div>
+
+  <!-- QUIZ S1 -->
+  <div class="quiz-section" id="quiz-s1">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: What is Light?</h4><span class="quiz-badge">5 Questions</span></div>
+    <div id="qs1-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs1-score">0</span>/5</span>
+      <button class="quiz-next-btn" onclick="navigate('s2',null)">Next Topic → Ray Optics</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S2: RAY OPTICS =============================== -->
+<div class="section" id="s2">
+  <div class="section-hero">
+    <h2>📐 Ray Optics &amp; Geometry</h2>
+    <p>In ray optics, we treat light as travelling in straight lines called <strong>rays</strong>. This helps us understand how light behaves with mirrors and lenses using simple geometry!</p>
+  </div>
+
+  <div class="card">
+    <h3>☀️ Light Rays &amp; Beams</h3>
+    <div class="card-row">
+      <div>
+        <p>A <span class="key-term">ray of light</span> is a straight line showing the path light travels. A <span class="key-term">beam</span> is a group of rays together.</p>
+        <p style="margin-top:8px;">Types of beams:</p>
+        <ul>
+          <li><strong>Parallel beam:</strong> Rays travel side by side (sunlight)</li>
+          <li><strong>Convergent beam:</strong> Rays come together at a point</li>
+          <li><strong>Divergent beam:</strong> Rays spread outward from a point</li>
+        </ul>
+      </div>
+      <div class="diagram-container">
+        <svg width="280" height="160" viewBox="0 0 280 160" class="diagram">
+          <defs><marker id="arr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#2d6a4f"/></marker></defs>
+          <!-- Parallel -->
+          <text x="10" y="14" font-size="10" fill="#555" font-family="Nunito">Parallel</text>
+          <line x1="10" y1="25" x2="80" y2="25" stroke="#3a7d44" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="10" y1="38" x2="80" y2="38" stroke="#3a7d44" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="10" y1="51" x2="80" y2="51" stroke="#3a7d44" stroke-width="2" marker-end="url(#arr)"/>
+          <!-- Convergent -->
+          <text x="105" y="14" font-size="10" fill="#555" font-family="Nunito">Convergent</text>
+          <line x1="100" y1="20" x2="165" y2="45" stroke="#e67e22" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="100" y1="38" x2="165" y2="45" stroke="#e67e22" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="100" y1="56" x2="165" y2="45" stroke="#e67e22" stroke-width="2" marker-end="url(#arr)"/>
+          <circle cx="165" cy="45" r="4" fill="#e67e22"/>
+          <!-- Divergent -->
+          <text x="190" y="14" font-size="10" fill="#555" font-family="Nunito">Divergent</text>
+          <circle cx="190" cy="38" r="4" fill="#3498db"/>
+          <line x1="190" y1="38" x2="255" y2="18" stroke="#3498db" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="190" y1="38" x2="260" y2="38" stroke="#3498db" stroke-width="2" marker-end="url(#arr)"/>
+          <line x1="190" y1="38" x2="255" y2="58" stroke="#3498db" stroke-width="2" marker-end="url(#arr)"/>
+          <!-- Labels below -->
+          <text x="30" y="75" font-size="10" fill="#3a7d44" font-family="Nunito" font-weight="bold">Sunlight</text>
+          <text x="105" y="75" font-size="10" fill="#e67e22" font-family="Nunito" font-weight="bold">Convex lens</text>
+          <text x="193" y="75" font-size="10" fill="#3498db" font-family="Nunito" font-weight="bold">Point source</text>
+          <!-- Normal line demo -->
+          <line x1="60" y1="100" x2="220" y2="100" stroke="#333" stroke-width="2"/>
+          <text x="10" y="104" font-size="10" fill="#333" font-family="Nunito">Surface →</text>
+          <line x1="140" y1="65" x2="140" y2="150" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="145" y="88" font-size="10" fill="#e74c3c" font-family="Nunito">Normal</text>
+          <line x1="100" y1="65" x2="140" y2="100" stroke="#3498db" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="92" y="62" font-size="10" fill="#3498db" font-family="Nunito">Ray</text>
+          <text x="107" y="88" font-size="9" fill="#555" font-family="Nunito">θ</text>
+        </svg>
+        <div class="diagram-label">Types of light beams and the normal to a surface</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📏 Important Geometrical Terms</h3>
+    <table class="info-table">
+      <tr><th>Term</th><th>Meaning</th><th>Symbol</th></tr>
+      <tr><td><strong>Normal</strong></td><td>A line perpendicular (90°) to a surface at the point where light hits</td><td>NN'</td></tr>
+      <tr><td><strong>Angle of Incidence</strong></td><td>Angle between incoming ray and normal</td><td>∠i</td></tr>
+      <tr><td><strong>Angle of Reflection</strong></td><td>Angle between reflected ray and normal</td><td>∠r</td></tr>
+      <tr><td><strong>Angle of Refraction</strong></td><td>Angle between refracted ray and normal</td><td>∠r'</td></tr>
+      <tr><td><strong>Principal Axis</strong></td><td>The main horizontal axis passing through centre of mirror/lens</td><td>PA</td></tr>
+      <tr><td><strong>Focal Length</strong></td><td>Distance from mirror/lens to its focal point</td><td>f</td></tr>
+      <tr><td><strong>Aperture</strong></td><td>The effective diameter of a mirror or lens</td><td>D</td></tr>
+    </table>
+    <div class="callout orange" style="margin-top:10px;">
+      <strong>📌 New Cartesian Sign Convention:</strong> All distances are measured from the <strong>pole</strong> (centre) of the mirror/lens. Distances measured in the direction of incident light are <strong>positive (+)</strong>; opposite to incident light are <strong>negative (−)</strong>.
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>✏️ Drawing Ray Diagrams — Golden Rules</h3>
+    <div class="card-row">
+      <div>
+        <p><strong>For Mirrors:</strong></p>
+        <ul>
+          <li>A ray <strong>parallel to principal axis</strong> reflects through F (focus)</li>
+          <li>A ray <strong>through F</strong> reflects parallel to principal axis</li>
+          <li>A ray <strong>through C</strong> (centre of curvature) reflects back on itself</li>
+          <li>A ray hitting the <strong>pole</strong> reflects at equal angles to the axis</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>For Lenses:</strong></p>
+        <ul>
+          <li>A ray <strong>parallel to principal axis</strong> refracts through F₂</li>
+          <li>A ray <strong>through F₁</strong> refracts parallel to principal axis</li>
+          <li>A ray <strong>through optical centre</strong> passes straight through (no bending)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ S2 -->
+  <div class="quiz-section" id="quiz-s2">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Ray Optics Geometry</h4><span class="quiz-badge">4 Questions</span></div>
+    <div id="qs2-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs2-score">0</span>/4</span>
+      <button class="quiz-next-btn" onclick="navigate('s3',null)">Next Topic → Reflection</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S3: REFLECTION =============================== -->
+<div class="section" id="s3">
+  <div class="section-hero">
+    <h2>🪞 Reflection of Light</h2>
+    <p>When light hits a smooth surface, it bounces back. This is called <strong>reflection</strong>! This is how you see your face in a mirror. Let's explore the laws of reflection and different types of mirrors!</p>
+  </div>
+
+  <div class="card">
+    <h3>⚖️ Laws of Reflection</h3>
+    <div class="card-row">
+      <div>
+        <div class="callout green"><strong>Law 1:</strong> The angle of incidence (∠i) is <em>always equal</em> to the angle of reflection (∠r).<br><br><strong>∠i = ∠r</strong></div>
+        <div class="callout blue" style="margin-top:8px;"><strong>Law 2:</strong> The incident ray, the reflected ray, and the normal at the point of incidence — all lie in the <em>same plane</em>.</div>
+        <div class="fact-box" style="margin-top:10px;">
+          <div class="fact-icon">🌊</div>
+          <p><strong>Regular vs Diffuse Reflection:</strong> Smooth surfaces (mirror) give <strong>regular</strong> (specular) reflection. Rough surfaces (paper) give <strong>diffuse</strong> reflection — light scatters in all directions. That's why you can read a book but not see your face in it!</p>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <svg width="250" height="200" viewBox="0 0 250 200" class="diagram">
+          <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2d6a4f"/></marker>
+          <marker id="arr3" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e67e22"/></marker></defs>
+          <!-- Surface -->
+          <line x1="30" y1="130" x2="220" y2="130" stroke="#333" stroke-width="3"/>
+          <text x="230" y="134" font-size="10" fill="#333" font-family="Nunito">Surface</text>
+          <!-- Hatching -->
+          <line x1="40" y1="130" x2="30" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="60" y1="130" x2="50" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="80" y1="130" x2="70" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="100" y1="130" x2="90" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="120" y1="130" x2="110" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="140" y1="130" x2="130" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="160" y1="130" x2="150" y2="145" stroke="#888" stroke-width="1"/>
+          <line x1="180" y1="130" x2="170" y2="145" stroke="#888" stroke-width="1"/>
+          <!-- Normal -->
+          <line x1="125" y1="60" x2="125" y2="175" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,4"/>
+          <text x="130" y="72" font-size="10" fill="#e74c3c" font-family="Nunito" font-weight="bold">Normal (N)</text>
+          <!-- Incident ray -->
+          <line x1="50" y1="40" x2="125" y2="130" stroke="#3a7d44" stroke-width="2.5" marker-end="url(#arr2)"/>
+          <text x="30" y="36" font-size="11" fill="#3a7d44" font-family="Nunito" font-weight="bold">Incident ray</text>
+          <!-- Reflected ray -->
+          <line x1="125" y1="130" x2="200" y2="40" stroke="#e67e22" stroke-width="2.5" marker-end="url(#arr3)"/>
+          <text x="165" y="36" font-size="11" fill="#e67e22" font-family="Nunito" font-weight="bold">Reflected ray</text>
+          <!-- Angles -->
+          <path d="M 115,130 A 15,15 0 0,1 106,107" fill="none" stroke="#3a7d44" stroke-width="1.5"/>
+          <text x="90" y="112" font-size="11" fill="#3a7d44" font-family="Nunito" font-weight="bold">∠i</text>
+          <path d="M 135,130 A 15,15 0 0,0 144,107" fill="none" stroke="#e67e22" stroke-width="1.5"/>
+          <text x="143" y="112" font-size="11" fill="#e67e22" font-family="Nunito" font-weight="bold">∠r</text>
+          <!-- Equal sign -->
+          <text x="105" y="155" font-size="12" fill="#1a2e1e" font-family="Nunito" font-weight="800">∠i = ∠r ✓</text>
+        </svg>
+        <div class="diagram-label">Laws of Reflection — angle of incidence equals angle of reflection</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PLANE MIRROR -->
+  <div class="card">
+    <h3>🪟 Plane Mirror</h3>
+    <div class="card-row">
+      <div>
+        <p>A flat, smooth mirror. It forms a <strong>virtual, erect, and same-sized</strong> image behind the mirror.</p>
+        <table class="info-table" style="margin-top:10px;">
+          <tr><th>Property</th><th>Value</th></tr>
+          <tr><td>Image type</td><td>Virtual (can't be projected)</td></tr>
+          <tr><td>Image orientation</td><td>Erect (right side up)</td></tr>
+          <tr><td>Image size</td><td>Same as object</td></tr>
+          <tr><td>Image distance</td><td>Same as object distance</td></tr>
+          <tr><td>Laterally inverted?</td><td>Yes! Left↔Right swapped</td></tr>
+        </table>
+        <div class="callout orange" style="margin-top:8px;"><strong>🤔 Why AMBULANCE is written in reverse?</strong> So that drivers can read it correctly in their rear-view mirror (plane mirror)! It's lateral inversion in action!</div>
+      </div>
+      <div class="diagram-container">
+        <svg width="240" height="180" viewBox="0 0 240 180">
+          <!-- Mirror -->
+          <rect x="110" y="20" width="8" height="150" fill="#a8d5a2" stroke="#2d6a4f" stroke-width="2" rx="3"/>
+          <text x="122" y="100" font-size="11" fill="#2d6a4f" font-family="Nunito" font-weight="bold" transform="rotate(90,130,100)">MIRROR</text>
+          <!-- Object (arrow) -->
+          <line x1="50" y1="110" x2="50" y2="50" stroke="#e74c3c" stroke-width="3"/>
+          <polygon points="50,42 46,54 54,54" fill="#e74c3c"/>
+          <text x="28" y="125" font-size="11" fill="#e74c3c" font-family="Nunito" font-weight="bold">Object</text>
+          <!-- Image (dashed arrow) -->
+          <line x1="175" y1="110" x2="175" y2="50" stroke="#3498db" stroke-width="2" stroke-dasharray="5,4"/>
+          <polygon points="175,42 171,54 179,54" fill="#3498db" opacity="0.6"/>
+          <text x="170" y="125" font-size="11" fill="#3498db" font-family="Nunito" font-weight="bold">Image</text>
+          <!-- Distance labels -->
+          <line x1="50" y1="140" x2="114" y2="140" stroke="#333" stroke-width="1" marker-end="url(#arr)"/>
+          <line x1="175" y1="140" x2="118" y2="140" stroke="#333" stroke-width="1" marker-end="url(#arr)"/>
+          <text x="60" y="155" font-size="10" fill="#333" font-family="Nunito">u (object dist)</text>
+          <text x="128" y="155" font-size="10" fill="#3498db" font-family="Nunito">v = u (image dist)</text>
+          <!-- Rays -->
+          <line x1="50" y1="70" x2="114" y2="70" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="50" y1="90" x2="114" y2="90" stroke="#f39c12" stroke-width="1.5" stroke-dasharray="4,3"/>
+        </svg>
+        <div class="diagram-label">Plane mirror: image is virtual, erect, same size, same distance behind mirror</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CURVED MIRRORS -->
+  <div class="card">
+    <h3>🔵 Curved Mirrors — Key Terms</h3>
+    <div class="card-row three">
+      <div class="callout green"><strong>C — Centre of Curvature:</strong> Centre of the sphere of which the mirror is a part. Distance = R (radius of curvature)</div>
+      <div class="callout blue"><strong>F — Focus (Focal Point):</strong> Where parallel rays meet (concave) or appear to come from (convex) after reflection.</div>
+      <div class="callout orange"><strong>f = R/2:</strong> The focal length is half the radius of curvature!</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Mirror Formula</div>
+      <div class="formula">1/v + 1/u = 1/f &nbsp;&nbsp;and&nbsp;&nbsp; f = R/2</div>
+      <div class="formula-note">v = image distance | u = object distance | f = focal length | R = radius of curvature</div>
+    </div>
+    <div class="formula-box" style="margin-top:10px;">
+      <div class="formula-label">Magnification</div>
+      <div class="formula">m = −v/u = h'/h</div>
+      <div class="formula-note">h' = image height | h = object height | m > 0 → erect | m &lt; 0 → inverted</div>
+    </div>
+  </div>
+
+  <!-- MIRROR SIMULATION -->
+  <div class="card">
+    <h3>🔬 Interactive Mirror Simulation</h3>
+    <p style="margin-bottom:10px;">Use the controls below to explore image formation in different mirrors. Move the object closer or farther to see how the image changes!</p>
+    <div class="sim-controls">
+      <label>Mirror Type:</label>
+      <select id="mirror-type" onchange="drawMirrorSim()">
+        <option value="concave">Concave Mirror</option>
+        <option value="convex">Convex Mirror</option>
+        <option value="plane">Plane Mirror</option>
+      </select>
+      <label>Object Distance (u):</label>
+      <input type="range" id="mirror-u" min="5" max="95" value="60" oninput="drawMirrorSim()">
+      <span id="mirror-u-val" style="font-size:12px;font-weight:700;color:var(--accent);">60 cm</span>
+    </div>
+    <div class="diagram-container">
+      <canvas id="mirror-canvas" width="620" height="280"></canvas>
+    </div>
+    <div class="sim-output" id="mirror-output">Select mirror type and move the slider to see image properties!</div>
+  </div>
+
+  <!-- CONCAVE MIRROR TABLE -->
+  <div class="card">
+    <h3>🔵 Concave Mirror — Image Formation</h3>
+    <table class="info-table">
+      <tr><th>Object Position</th><th>Image Position</th><th>Image Nature</th><th>Use</th></tr>
+      <tr><td>At infinity (∞)</td><td>At F</td><td>Real, inverted, very small</td><td>Reflecting telescopes</td></tr>
+      <tr><td>Beyond C</td><td>Between F and C</td><td>Real, inverted, smaller</td><td>—</td></tr>
+      <tr><td>At C</td><td>At C</td><td>Real, inverted, same size</td><td>—</td></tr>
+      <tr><td>Between F and C</td><td>Beyond C</td><td>Real, inverted, magnified</td><td>Projectors</td></tr>
+      <tr><td>At F</td><td>At infinity (∞)</td><td>Real, inverted, very large</td><td>Search lights</td></tr>
+      <tr><td>Between F and P</td><td>Behind mirror</td><td>Virtual, erect, magnified</td><td>Shaving/makeup mirror, dentist mirror</td></tr>
+    </table>
+    <div class="example-box">
+      <div class="ex-title">📝 Numerical Example — Concave Mirror</div>
+      <div class="ex-step">Q: An object is placed 30 cm from a concave mirror of focal length 10 cm. Find the image position and magnification.</div>
+      <div class="ex-step">Given: u = −30 cm (object is in front of mirror), f = −10 cm (concave mirror)</div>
+      <div class="ex-step">Using: 1/v + 1/u = 1/f → 1/v = 1/f − 1/u = 1/(−10) − 1/(−30) = −1/10 + 1/30 = −3/30 + 1/30 = −2/30</div>
+      <div class="ex-step">∴ v = −15 cm (negative → real image, in front of mirror)</div>
+      <div class="ex-step">Magnification: m = −v/u = −(−15)/(−30) = −1/2</div>
+      <div class="ex-answer">Image is 15 cm in front of mirror. It is real, inverted, and diminished (m = −0.5)</div>
+    </div>
+  </div>
+
+  <!-- CONVEX MIRROR -->
+  <div class="card">
+    <h3>⭕ Convex Mirror — Always Virtual!</h3>
+    <div class="card-row">
+      <div>
+        <p>A convex mirror <strong>always</strong> forms a virtual, erect, and diminished image — regardless of where the object is placed!</p>
+        <div class="callout blue" style="margin-top:10px;"><strong>Uses of Convex Mirror:</strong> Vehicle rear-view mirrors, security mirrors in shops, road safety mirrors at turns. Why? Because it gives a <strong>wider field of view</strong>!</div>
+        <table class="info-table" style="margin-top:10px;">
+          <tr><th>Any object position →</th><th>Image is always:</th></tr>
+          <tr><td>Anywhere in front</td><td>Virtual, Erect, Diminished, Behind mirror</td></tr>
+        </table>
+      </div>
+      <div class="diagram-container">
+        <svg width="260" height="180" viewBox="0 0 260 180">
+          <defs><marker id="arr4" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#2d6a4f"/></marker>
+          <marker id="arr5" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#e67e22"/></marker></defs>
+          <!-- Convex mirror -->
+          <path d="M 160,30 Q 185,90 160,150" fill="none" stroke="#2d6a4f" stroke-width="4"/>
+          <text x="185" y="95" font-size="10" fill="#2d6a4f" font-family="Nunito" font-weight="bold">Convex</text>
+          <!-- Principal axis -->
+          <line x1="10" y1="90" x2="200" y2="90" stroke="#aaa" stroke-width="1" stroke-dasharray="5,4"/>
+          <!-- F (virtual, behind mirror) -->
+          <circle cx="185" cy="90" r="5" fill="#e74c3c" opacity="0.7"/>
+          <text x="188" y="86" font-size="10" fill="#e74c3c" font-family="Nunito" font-weight="bold">F</text>
+          <!-- Object -->
+          <line x1="60" y1="90" x2="60" y2="40" stroke="#e74c3c" stroke-width="3"/>
+          <polygon points="60,32 56,44 64,44" fill="#e74c3c"/>
+          <text x="38" y="110" font-size="11" fill="#e74c3c" font-family="Nunito" font-weight="bold">Object</text>
+          <!-- Image (smaller, virtual) -->
+          <line x1="173" y1="90" x2="173" y2="68" stroke="#3498db" stroke-width="2" stroke-dasharray="4,3" opacity="0.8"/>
+          <polygon points="173,60 169,72 177,72" fill="#3498db" opacity="0.6"/>
+          <text x="168" y="110" font-size="11" fill="#3498db" font-family="Nunito" font-weight="bold">Image</text>
+          <!-- Rays -->
+          <line x1="60" y1="50" x2="162" y2="58" stroke="#f39c12" stroke-width="1.5" marker-end="url(#arr4)"/>
+          <line x1="60" y1="50" x2="162" y2="90" stroke="#9b59b6" stroke-width="1.5" marker-end="url(#arr4)"/>
+        </svg>
+        <div class="diagram-label">Convex mirror: image always virtual, erect, diminished</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ S3 -->
+  <div class="quiz-section" id="quiz-s3">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Reflection &amp; Mirrors</h4><span class="quiz-badge">6 Questions</span></div>
+    <div id="qs3-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs3-score">0</span>/6</span>
+      <button class="quiz-next-btn" onclick="navigate('s4',null)">Next Topic → Refraction</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S4: REFRACTION =============================== -->
+<div class="section" id="s4">
+  <div class="section-hero">
+    <h2>🔀 Refraction of Light</h2>
+    <p>When light travels from one medium (like air) into another (like water or glass), it changes speed and <strong>bends</strong>! This is called <strong>refraction</strong>. It's why a straw in a glass of water looks bent — but it's actually the light that's bending!</p>
+  </div>
+
+  <div class="card">
+    <h3>⚖️ Laws of Refraction (Snell's Law)</h3>
+    <div class="card-row">
+      <div>
+        <div class="callout green"><strong>Law 1:</strong> The incident ray, the refracted ray, and the normal — all lie in the same plane.</div>
+        <div class="callout blue" style="margin-top:8px;"><strong>Law 2 (Snell's Law):</strong> The ratio of sine of angle of incidence to sine of angle of refraction is constant for a given pair of media.</div>
+        <div class="formula-box" style="margin-top:10px;">
+          <div class="formula-label">Snell's Law</div>
+          <div class="formula">n₁ sin θ₁ = n₂ sin θ₂</div>
+          <div class="formula-note">n₁, n₂ = refractive indices of medium 1 and 2 | θ₁ = angle of incidence | θ₂ = angle of refraction</div>
+        </div>
+        <div class="formula-box">
+          <div class="formula-label">Refractive Index</div>
+          <div class="formula">n = c/v = sin i / sin r</div>
+          <div class="formula-note">n = refractive index | c = speed in vacuum | v = speed in medium</div>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <svg width="240" height="200" viewBox="0 0 240 200">
+          <!-- Medium boundary -->
+          <rect x="0" y="100" width="240" height="100" fill="#c8e6ff" opacity="0.5"/>
+          <rect x="0" y="0" width="240" height="100" fill="#f0f8f0" opacity="0.5"/>
+          <text x="8" y="20" font-size="11" fill="#2d6a4f" font-family="Nunito" font-weight="bold">Air (n₁ = 1.0)</text>
+          <text x="8" y="120" font-size="11" fill="#1a5276" font-family="Nunito" font-weight="bold">Glass (n₂ = 1.5)</text>
+          <!-- Boundary line -->
+          <line x1="0" y1="100" x2="240" y2="100" stroke="#333" stroke-width="2"/>
+          <!-- Normal -->
+          <line x1="120" y1="20" x2="120" y2="190" stroke="#e74c3c" stroke-width="1.5" stroke-dasharray="5,4"/>
+          <text x="125" y="35" font-size="10" fill="#e74c3c" font-family="Nunito" font-weight="bold">N</text>
+          <!-- Incident ray -->
+          <line x1="60" y1="20" x2="120" y2="100" stroke="#3a7d44" stroke-width="2.5"/>
+          <polygon points="120,100 110,85 118,80" fill="#3a7d44"/>
+          <text x="40" y="16" font-size="11" fill="#3a7d44" font-family="Nunito" font-weight="bold">Incident</text>
+          <!-- Angle of incidence -->
+          <path d="M 110,100 A 20,20 0 0,1 105,83" fill="none" stroke="#3a7d44" stroke-width="1.5"/>
+          <text x="94" y="92" font-size="11" fill="#3a7d44" font-family="Nunito" font-weight="bold">θ₁</text>
+          <!-- Refracted ray (more toward normal - going to denser medium) -->
+          <line x1="120" y1="100" x2="155" y2="190" stroke="#3498db" stroke-width="2.5"/>
+          <polygon points="155,190 147,175 156,170" fill="#3498db"/>
+          <text x="155" y="186" font-size="11" fill="#3498db" font-family="Nunito" font-weight="bold">Refracted</text>
+          <!-- Angle of refraction -->
+          <path d="M 130,100 A 20,20 0 0,0 133,122" fill="none" stroke="#3498db" stroke-width="1.5"/>
+          <text x="134" y="113" font-size="11" fill="#3498db" font-family="Nunito" font-weight="bold">θ₂</text>
+          <!-- Note: θ₂ < θ₁ since going from less dense to more dense -->
+          <text x="5" y="195" font-size="10" fill="#555" font-family="Nunito">θ₂ &lt; θ₁ (denser medium bends toward normal)</text>
+        </svg>
+        <div class="diagram-label">Refraction at air-glass interface: ray bends toward normal when entering denser medium</div>
+      </div>
+    </div>
+    <div class="example-box">
+      <div class="ex-title">📝 Numerical Example — Snell's Law</div>
+      <div class="ex-step">Q: Light travels from air (n₁=1) into glass (n₂=1.5). The angle of incidence is 30°. Find the angle of refraction.</div>
+      <div class="ex-step">Using Snell's Law: n₁ sin θ₁ = n₂ sin θ₂</div>
+      <div class="ex-step">1 × sin 30° = 1.5 × sin θ₂ → 0.5 = 1.5 × sin θ₂ → sin θ₂ = 0.5/1.5 = 0.333</div>
+      <div class="ex-answer">∴ θ₂ = sin⁻¹(0.333) ≈ 19.47° (ray bends toward normal)</div>
+    </div>
+  </div>
+
+  <!-- LENSES -->
+  <div class="card">
+    <h3>🔍 Types of Lenses</h3>
+    <div class="card-row">
+      <div class="callout green">
+        <strong>Convex Lens (Converging)</strong><br>
+        Thicker in the middle. Brings parallel rays together at a point (focus F). Also called <em>converging lens</em>.
+        <br>Uses: Magnifying glass, camera, eye lens, spectacles for hypermetropia.
+      </div>
+      <div class="callout blue">
+        <strong>Concave Lens (Diverging)</strong><br>
+        Thinner in the middle. Spreads parallel rays outward — they appear to come from a point (virtual focus F).
+        Also called <em>diverging lens</em>.
+        <br>Uses: Spectacles for myopia, door peepholes.
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Lens Formula</div>
+      <div class="formula">1/v − 1/u = 1/f</div>
+      <div class="formula-note">v = image distance | u = object distance | f = focal length</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Magnification (Lens)</div>
+      <div class="formula">m = v/u = h'/h</div>
+      <div class="formula-note">m > 0 → erect image | m &lt; 0 → inverted image</div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Power of a Lens</div>
+      <div class="formula">P = 1/f (in dioptres D)</div>
+      <div class="formula-note">f must be in metres | Convex lens → P positive | Concave lens → P negative</div>
+    </div>
+  </div>
+
+  <!-- LENS SIMULATION -->
+  <div class="card">
+    <h3>🔬 Interactive Lens Simulation</h3>
+    <p style="margin-bottom:10px;">Explore how lenses form images! Change the lens type and object position to see the magic of image formation.</p>
+    <div class="sim-controls">
+      <label>Lens Type:</label>
+      <select id="lens-type" onchange="drawLensSim()">
+        <option value="convex">Convex Lens (f = +20 cm)</option>
+        <option value="concave">Concave Lens (f = −20 cm)</option>
+      </select>
+      <label>Object Distance:</label>
+      <input type="range" id="lens-u" min="5" max="95" value="50" oninput="drawLensSim()">
+      <span id="lens-u-val" style="font-size:12px;font-weight:700;color:var(--accent);">50 cm</span>
+    </div>
+    <div class="diagram-container">
+      <canvas id="lens-canvas" width="620" height="280"></canvas>
+    </div>
+    <div class="sim-output" id="lens-output">Select lens type and move the slider!</div>
+  </div>
+
+  <!-- CONVEX LENS IMAGE TABLE -->
+  <div class="card">
+    <h3>🔍 Convex Lens — Image Formation Table</h3>
+    <table class="info-table">
+      <tr><th>Object Position</th><th>Image Position</th><th>Nature</th><th>Use</th></tr>
+      <tr><td>At infinity</td><td>At F₂</td><td>Real, inverted, very small</td><td>Camera</td></tr>
+      <tr><td>Beyond 2F₁</td><td>Between F₂ and 2F₂</td><td>Real, inverted, smaller</td><td>Camera, eye</td></tr>
+      <tr><td>At 2F₁</td><td>At 2F₂</td><td>Real, inverted, same size</td><td>—</td></tr>
+      <tr><td>Between F₁ and 2F₁</td><td>Beyond 2F₂</td><td>Real, inverted, magnified</td><td>Projector</td></tr>
+      <tr><td>At F₁</td><td>At infinity</td><td>Real, inverted, very large</td><td>—</td></tr>
+      <tr><td>Between O and F₁</td><td>Same side as object</td><td>Virtual, erect, magnified</td><td>Magnifying glass</td></tr>
+    </table>
+    <div class="example-box">
+      <div class="ex-title">📝 Numerical Example — Convex Lens</div>
+      <div class="ex-step">Q: An object is placed 30 cm from a convex lens of focal length 20 cm. Find the image position, magnification, and power.</div>
+      <div class="ex-step">Given: u = −30 cm, f = +20 cm</div>
+      <div class="ex-step">1/v − 1/u = 1/f → 1/v = 1/f + 1/u = 1/20 + 1/(−30) = 3/60 − 2/60 = 1/60</div>
+      <div class="ex-step">∴ v = +60 cm (positive → real image on other side of lens)</div>
+      <div class="ex-step">m = v/u = 60/(−30) = −2 (inverted, magnified 2×)</div>
+      <div class="ex-step">Power P = 1/f = 1/0.20 m</div>
+      <div class="ex-answer">v = 60 cm, m = −2 (real, inverted, 2× magnified), P = +5 D</div>
+    </div>
+  </div>
+
+  <!-- QUIZ S4 -->
+  <div class="quiz-section" id="quiz-s4">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Refraction &amp; Lenses</h4><span class="quiz-badge">6 Questions</span></div>
+    <div id="qs4-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs4-score">0</span>/6</span>
+      <button class="quiz-next-btn" onclick="navigate('s5',null)">Next Topic → Total Internal Reflection</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S5: TIR =============================== -->
+<div class="section" id="s5">
+  <div class="section-hero">
+    <h2>💎 Total Internal Reflection (TIR)</h2>
+    <p>When light tries to escape from a denser medium (like glass) to a rarer medium (like air) at a large enough angle — it <strong>can't escape at all!</strong> It bounces back completely inside. This is Total Internal Reflection — the secret behind diamonds' sparkle and optical fibres!</p>
+  </div>
+
+  <div class="card">
+    <h3>⚠️ When Does TIR Happen?</h3>
+    <div class="callout orange"><strong>Conditions for TIR:</strong><br>1. Light must travel from a <strong>denser medium to rarer medium</strong> (e.g., glass→air, water→air).<br>2. The angle of incidence must be <strong>greater than the critical angle</strong> (θ > θ_c).</div>
+    <div class="formula-box">
+      <div class="formula-label">Critical Angle Formula</div>
+      <div class="formula">sin θ_c = n₂/n₁ = 1/n (when n₂ = 1, air)</div>
+      <div class="formula-note">θ_c = critical angle | n₁ = refractive index of denser medium | n₂ = refractive index of rarer medium</div>
+    </div>
+    <div class="example-box">
+      <div class="ex-title">📝 Example — Critical Angle of Glass</div>
+      <div class="ex-step">Given: n of glass = 1.5 (glass-air interface)</div>
+      <div class="ex-step">sin θ_c = 1/n = 1/1.5 = 0.667</div>
+      <div class="ex-answer">θ_c = sin⁻¹(0.667) ≈ 41.8° for glass-air</div>
+    </div>
+  </div>
+
+  <!-- TIR Simulation -->
+  <div class="card">
+    <h3>🔬 TIR Interactive Simulation</h3>
+    <p style="margin-bottom:10px;">Increase the angle of incidence gradually. Watch what happens at the critical angle!</p>
+    <div class="sim-controls">
+      <label>Angle of Incidence:</label>
+      <input type="range" id="tir-angle" min="10" max="80" value="30" oninput="drawTIRSim()">
+      <span id="tir-angle-val" style="font-weight:700;color:var(--accent);">30°</span>
+      <label>Medium:</label>
+      <select id="tir-medium" onchange="drawTIRSim()">
+        <option value="1.5">Glass (n=1.5, θc≈41.8°)</option>
+        <option value="1.33">Water (n=1.33, θc≈48.8°)</option>
+        <option value="2.42">Diamond (n=2.42, θc≈24.4°)</option>
+      </select>
+    </div>
+    <div class="diagram-container">
+      <canvas id="tir-canvas" width="560" height="260"></canvas>
+    </div>
+    <div class="sim-output" id="tir-output">Adjust the angle to see TIR!</div>
+  </div>
+
+  <div class="card">
+    <h3>✨ Applications of TIR</h3>
+    <div class="card-row three">
+      <div class="callout blue"><strong>💎 Diamonds</strong><br>Extremely high n (2.42) → very small critical angle (24.4°). Light gets trapped inside and reflects multiple times creating brilliant sparkle!</div>
+      <div class="callout green"><strong>🌐 Optical Fibres</strong><br>Light travels through thin glass/plastic fibres by repeated TIR. Used in internet cables, endoscopes (medical), and decorative lights!</div>
+      <div class="callout orange"><strong>🌈 Prisms &amp; Binoculars</strong><br>Prisms in binoculars and periscopes use TIR (instead of mirrors) to redirect light because TIR is 100% efficient — no energy loss!</div>
+    </div>
+    <div class="fact-box">
+      <div class="fact-icon">🔬</div>
+      <p><strong>Medical Marvel:</strong> Doctors use optical fibre endoscopes to see inside your stomach and intestines without surgery! Light travels through the fibre by TIR to illuminate and carry images from inside the body!</p>
+    </div>
+  </div>
+
+  <!-- QUIZ S5 -->
+  <div class="quiz-section" id="quiz-s5">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Total Internal Reflection</h4><span class="quiz-badge">4 Questions</span></div>
+    <div id="qs5-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs5-score">0</span>/4</span>
+      <button class="quiz-next-btn" onclick="navigate('s6',null)">Next Topic → Spectrum &amp; Rainbow</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S6: SPECTRUM =============================== -->
+<div class="section" id="s6">
+  <div class="section-hero">
+    <h2>🌈 Spectrum, Prism &amp; Rainbow</h2>
+    <p>White light is not just white — it's actually a <strong>mixture of all colours</strong>! A prism can split white light into its beautiful rainbow of colours. Let's explore the secret life of light and understand why rainbows appear in the sky!</p>
+  </div>
+
+  <div class="card">
+    <h3>🔺 Dispersion Through a Prism</h3>
+    <div class="card-row">
+      <div>
+        <p><span class="key-term">Dispersion</span> is the splitting of white light into its component colours when it passes through a prism. This happens because different colours of light travel at <strong>different speeds</strong> in glass, so they refract by different amounts.</p>
+        <div class="callout orange" style="margin-top:10px;"><strong>Violet bends the most</strong> (highest refractive index in glass)<br><strong>Red bends the least</strong> (lowest refractive index in glass)</div>
+        <div class="spectrum-bar" style="margin-top:12px;"></div>
+        <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:700;margin-top:4px;">
+          <span style="color:#8b00ff">V</span><span style="color:#4400ff">I</span><span style="color:#0000ff">B</span><span style="color:#008800">G</span><span style="color:#aaaa00">Y</span><span style="color:#ff6600">O</span><span style="color:#ff0000">R</span>
+        </div>
+        <p style="font-size:12px;color:#555;margin-top:4px;"><strong>VIBGYOR</strong> — Violet, Indigo, Blue, Green, Yellow, Orange, Red</p>
+        <div class="formula-box" style="margin-top:10px;">
+          <div class="formula-label">Angular Dispersion</div>
+          <div class="formula">δ = δ_V − δ_R</div>
+          <div class="formula-note">δ_V = deviation of violet | δ_R = deviation of red</div>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <canvas id="prism-canvas" width="280" height="220"></canvas>
+        <div class="diagram-label">White light splitting through a glass prism</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- RAINBOW -->
+  <div class="card">
+    <h3>🌈 How Does a Rainbow Form?</h3>
+    <div class="card-row">
+      <div>
+        <p>A rainbow is nature's most beautiful light show! It forms when sunlight passes through <strong>raindrops</strong> in the air. Each raindrop acts like a tiny prism!</p>
+        <p style="margin-top:8px;"><strong>Steps of Rainbow Formation:</strong></p>
+        <ol style="padding-left:18px;margin-top:6px;font-size:12.5px;line-height:1.9;">
+          <li>Sunlight enters the raindrop and <strong>refracts</strong> (bends)</li>
+          <li>White light <strong>disperses</strong> into VIBGYOR colours</li>
+          <li>Light hits the back of the drop and undergoes <strong>Total Internal Reflection</strong></li>
+          <li>Light exits the drop, refracting again</li>
+          <li>You see red at top (42°) and violet at bottom (40°)</li>
+        </ol>
+        <div class="callout blue" style="margin-top:10px;">
+          <strong>Primary vs Secondary Rainbow:</strong><br>
+          • <strong>Primary:</strong> One internal reflection. Red outside, violet inside.<br>
+          • <strong>Secondary:</strong> Two internal reflections. Colours reversed! Fainter. Red inside, violet outside.
+        </div>
+        <div class="callout orange" style="margin-top:8px;"><strong>You can only see a rainbow when the Sun is <em>behind</em> you and rain is in front!</strong></div>
+      </div>
+      <div class="diagram-container">
+        <svg width="260" height="220" viewBox="0 0 260 220">
+          <!-- Sun -->
+          <circle cx="20" cy="110" r="15" fill="#f39c12" opacity="0.9"/>
+          <text x="6" y="140" font-size="10" fill="#f39c12" font-family="Nunito">Sun</text>
+          <!-- Raindrop -->
+          <ellipse cx="150" cy="90" rx="35" ry="42" fill="#cce5ff" stroke="#3498db" stroke-width="2" opacity="0.7"/>
+          <text x="125" y="150" font-size="10" fill="#3498db" font-family="Nunito">Raindrop</text>
+          <!-- Incident ray (white) -->
+          <line x1="35" y1="80" x2="115" y2="70" stroke="#888" stroke-width="2.5"/>
+          <text x="45" y="66" font-size="9" fill="#888" font-family="Nunito">White light</text>
+          <!-- Refraction inside drop - multiple colours -->
+          <line x1="115" y1="70" x2="180" y2="108" stroke="#8b00ff" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="115" y1="70" x2="180" y2="112" stroke="#0000ff" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="115" y1="70" x2="180" y2="116" stroke="#00aa00" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="115" y1="70" x2="180" y2="120" stroke="#ffcc00" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="115" y1="70" x2="180" y2="124" stroke="#ff6600" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="115" y1="70" x2="180" y2="128" stroke="#ff0000" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <!-- TIR back -->
+          <line x1="180" y1="108" x2="120" y2="132" stroke="#8b00ff" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="180" y1="128" x2="122" y2="140" stroke="#ff0000" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <!-- Exit rays -->
+          <line x1="120" y1="132" x2="60" y2="80" stroke="#8b00ff" stroke-width="2"/>
+          <line x1="122" y1="140" x2="60" y2="110" stroke="#ff0000" stroke-width="2"/>
+          <text x="22" y="78" font-size="10" fill="#8b00ff" font-family="Nunito">Violet</text>
+          <text x="22" y="112" font-size="10" fill="#ff0000" font-family="Nunito">Red</text>
+          <!-- Observer eye -->
+          <circle cx="30" cy="94" r="8" fill="#f0c0a0" stroke="#333" stroke-width="1"/>
+          <circle cx="30" cy="94" r="4" fill="#4a4a00"/>
+          <text x="8" y="172" font-size="9" fill="#555" font-family="Nunito">Observer sees:</text>
+          <text x="8" y="183" font-size="9" fill="#ff0000" font-family="Nunito" font-weight="bold">Red (top, 42°)</text>
+          <text x="8" y="194" font-size="9" fill="#8b00ff" font-family="Nunito" font-weight="bold">Violet (bottom, 40°)</text>
+        </svg>
+        <div class="diagram-label">Rainbow: refraction + TIR + refraction inside each raindrop</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🏆 Refractive Index of Prism Colours</h3>
+    <table class="info-table">
+      <tr><th>Colour</th><th>Refractive Index (glass)</th><th>Deviation (approx.)</th></tr>
+      <tr><td>🔴 Red</td><td>1.513</td><td>Least (bends least)</td></tr>
+      <tr><td>🟠 Orange</td><td>1.514</td><td>↓</td></tr>
+      <tr><td>🟡 Yellow</td><td>1.517</td><td>↓</td></tr>
+      <tr><td>🟢 Green</td><td>1.519</td><td>↓</td></tr>
+      <tr><td>🔵 Blue</td><td>1.524</td><td>↓</td></tr>
+      <tr><td>🟣 Violet</td><td>1.530</td><td>Most (bends most)</td></tr>
+    </table>
+  </div>
+
+  <!-- QUIZ S6 -->
+  <div class="quiz-section" id="quiz-s6">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Spectrum, Prism &amp; Rainbow</h4><span class="quiz-badge">5 Questions</span></div>
+    <div id="qs6-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs6-score">0</span>/5</span>
+      <button class="quiz-next-btn" onclick="navigate('s7',null)">Next → Interference &amp; Diffraction</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S7: INTERFERENCE & DIFFRACTION =============================== -->
+<div class="section" id="s7">
+  <div class="section-hero">
+    <h2>🌊 Interference &amp; Diffraction</h2>
+    <p>Light is a wave, and waves have a remarkable ability — they can <strong>add up</strong> or <strong>cancel each other out</strong>! This gives us beautiful patterns of bright and dark bands. Diffraction is why light bends slightly around corners!</p>
+  </div>
+
+  <div class="card">
+    <h3>🌊 Interference of Light</h3>
+    <div class="card-row">
+      <div>
+        <p><span class="key-term">Interference</span> occurs when two or more light waves overlap and combine. The result depends on whether the waves are <em>in phase</em> or <em>out of phase</em>.</p>
+        <div class="callout green" style="margin-top:10px;"><strong>✅ Constructive Interference:</strong><br>When two waves are <em>in phase</em> (crest meets crest), they add up → <strong>Bright fringe</strong><br>Path difference = nλ (n = 0, 1, 2, ...)</div>
+        <div class="callout red" style="background:#fce4ec;border-left:4px solid #e91e63;color:#880e4f;" style="margin-top:8px;"><strong>❌ Destructive Interference:</strong><br>When two waves are <em>out of phase</em> (crest meets trough), they cancel → <strong>Dark fringe</strong><br>Path difference = (2n−1)λ/2</div>
+        <div class="fact-box" style="margin-top:10px;">
+          <div class="fact-icon">🦋</div>
+          <p><strong>Beautiful Examples of Interference:</strong> The iridescent colours on soap bubbles, butterfly wings, oil films on water, and peacock feathers are all due to interference of light!</p>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <canvas id="interference-canvas" width="260" height="200"></canvas>
+        <div class="diagram-label">Interference pattern — alternating bright and dark fringes</div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Fringe Width (Young's Double Slit)</div>
+      <div class="formula">β = λD/d</div>
+      <div class="formula-note">β = fringe width | λ = wavelength | D = distance to screen | d = slit separation</div>
+    </div>
+    <div class="example-box">
+      <div class="ex-title">📝 Numerical Example</div>
+      <div class="ex-step">Q: In a double-slit experiment, λ = 600 nm, D = 1 m, d = 0.3 mm. Find fringe width.</div>
+      <div class="ex-step">β = λD/d = (600×10⁻⁹ × 1) / (0.3×10⁻³) = 600×10⁻⁶ / 0.3×10⁻³</div>
+      <div class="ex-answer">β = 2×10⁻³ m = 2 mm</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌊 Diffraction of Light</h3>
+    <div class="card-row">
+      <div>
+        <p><span class="key-term">Diffraction</span> is the <strong>bending of light around corners</strong> or through narrow openings (slits). It's most noticeable when the slit size is comparable to the wavelength of light.</p>
+        <p style="margin-top:8px;"><strong>Why does diffraction occur?</strong> According to Huygens' principle, every point on a wavefront acts as a new source of waves. When a wave passes through a narrow slit, points near the edges send waves sideways, causing the wave to spread out.</p>
+        <div class="callout orange" style="margin-top:10px;">
+          <strong>Real-world Diffraction:</strong><br>
+          • CDs/DVDs act as diffraction gratings — rainbow colours on their surface!<br>
+          • Coronas around the moon on cloudy nights<br>
+          • Shadows have slightly fuzzy edges (not perfectly sharp) due to diffraction
+        </div>
+      </div>
+      <div class="diagram-container">
+        <svg width="240" height="180" viewBox="0 0 240 180">
+          <!-- Wall with slit -->
+          <rect x="100" y="0" width="10" height="70" fill="#555"/>
+          <rect x="100" y="90" width="10" height="90" fill="#555"/>
+          <text x="60" y="95" font-size="11" fill="#555" font-family="Nunito">Slit</text>
+          <!-- Incoming waves (parallel) -->
+          <line x1="10" y1="20" x2="100" y2="20" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="10" y1="40" x2="100" y2="40" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="10" y1="60" x2="100" y2="60" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="10" y1="80" x2="100" y2="80" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="10" y1="100" x2="100" y2="100" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="10" y1="120" x2="100" y2="120" stroke="#3498db" stroke-width="1.5"/>
+          <text x="8" y="15" font-size="10" fill="#3498db" font-family="Nunito">Plane</text>
+          <text x="8" y="26" font-size="10" fill="#3498db" font-family="Nunito">waves</text>
+          <!-- Diffracted semicircular waves -->
+          <path d="M110,80 A30,30 0 1,1 110,80.1" fill="none" stroke="#e67e22" stroke-width="1" opacity="0.6"/>
+          <path d="M110,80 A50,50 0 1,1 110,80.1" fill="none" stroke="#e67e22" stroke-width="1" opacity="0.5"/>
+          <path d="M110,80 A70,70 0 1,1 110,80.1" fill="none" stroke="#e67e22" stroke-width="1" opacity="0.4"/>
+          <path d="M110,80 A90,90 0 1,1 110,80.1" fill="none" stroke="#e67e22" stroke-width="1" opacity="0.3"/>
+          <path d="M110,80 A110,110 0 1,1 110,80.1" fill="none" stroke="#e67e22" stroke-width="1" opacity="0.2"/>
+          <text x="150" y="25" font-size="10" fill="#e67e22" font-family="Nunito">Diffracted</text>
+          <text x="150" y="36" font-size="10" fill="#e67e22" font-family="Nunito">waves spread</text>
+          <text x="150" y="170" font-size="10" fill="#555" font-family="Nunito">Waves bend around the slit!</text>
+        </svg>
+        <div class="diagram-label">Diffraction: light bends around edges of a narrow slit</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ S7 -->
+  <div class="quiz-section" id="quiz-s7">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Interference &amp; Diffraction</h4><span class="quiz-badge">4 Questions</span></div>
+    <div id="qs7-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs7-score">0</span>/4</span>
+      <button class="quiz-next-btn" onclick="navigate('s8',null)">Next → Scattering &amp; Mirages</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S8: SCATTERING & MIRAGES =============================== -->
+<div class="section" id="s8">
+  <div class="section-hero">
+    <h2>☁️ Scattering of Light &amp; Atmospheric Effects</h2>
+    <p>Have you ever wondered <strong>why the sky is blue</strong>? Or why the Sun looks red at sunset? Or how a mirage tricks desert travellers? All these are beautiful effects caused by how light interacts with the atmosphere!</p>
+  </div>
+
+  <div class="card">
+    <h3>💙 Rayleigh Scattering — Why is the Sky Blue?</h3>
+    <div class="card-row">
+      <div>
+        <p><span class="key-term">Rayleigh Scattering</span> occurs when light interacts with particles (like air molecules) that are much smaller than the wavelength of light.</p>
+        <div class="formula-box">
+          <div class="formula-label">Rayleigh Scattering Law</div>
+          <div class="formula">I ∝ 1/λ⁴</div>
+          <div class="formula-note">Shorter wavelengths scatter MUCH more! Blue (400 nm) scatters about 5.5× more than red (700 nm)</div>
+        </div>
+        <div class="callout blue" style="margin-top:10px;"><strong>🌤️ Why sky is BLUE:</strong> Sunlight enters the atmosphere. Blue light (short wavelength) scatters in all directions. We see scattered blue light throughout the sky!</div>
+        <div class="callout orange" style="margin-top:8px;"><strong>🌅 Why sunset is RED/ORANGE:</strong> At sunrise/sunset, sunlight travels through more atmosphere. Blue is scattered away. Only red and orange (long wavelengths) reach your eyes!</div>
+        <div class="callout green" style="margin-top:8px;"><strong>🌕 Why Moon sky is BLACK:</strong> No atmosphere on the Moon = no scattering = pitch black sky even during daytime!</div>
+      </div>
+      <div class="diagram-container">
+        <svg width="240" height="200" viewBox="0 0 240 200">
+          <!-- Sky gradient -->
+          <defs><linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a6fc4"/><stop offset="100%" stop-color="#87ceeb"/></linearGradient></defs>
+          <rect x="0" y="0" width="240" height="140" fill="url(#skyGrad)" rx="8"/>
+          <!-- Ground -->
+          <rect x="0" y="140" width="240" height="60" fill="#8B7355" rx="0"/>
+          <!-- Sun -->
+          <circle cx="30" cy="30" r="18" fill="#f39c12"/>
+          <!-- Sun rays -->
+          <line x1="35" y1="10" x2="38" y2="0" stroke="#f39c12" stroke-width="1.5"/>
+          <line x1="48" y1="18" x2="55" y2="10" stroke="#f39c12" stroke-width="1.5"/>
+          <!-- White light ray -->
+          <line x1="48" y1="30" x2="160" y2="80" stroke="#ddd" stroke-width="2"/>
+          <!-- Scattered blue arrows -->
+          <line x1="90" y1="55" x2="60" y2="30" stroke="#3498db" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="90" y1="55" x2="120" y2="25" stroke="#3498db" stroke-width="1.5" marker-end="url(#arr)"/>
+          <line x1="90" y1="55" x2="110" y2="80" stroke="#3498db" stroke-width="1.5" marker-end="url(#arr)"/>
+          <circle cx="90" cy="55" r="4" fill="#3498db"/>
+          <!-- Red reaches ground -->
+          <line x1="160" y1="80" x2="210" y2="130" stroke="#e74c3c" stroke-width="2.5"/>
+          <line x1="160" y1="80" x2="190" y2="140" stroke="#ff6600" stroke-width="2"/>
+          <!-- Labels -->
+          <text x="60" y="12" font-size="9" fill="#3498db" font-family="Nunito" font-weight="bold">Blue scattered!</text>
+          <text x="185" y="125" font-size="9" fill="#e74c3c" font-family="Nunito" font-weight="bold">Red reaches us</text>
+          <!-- Observer -->
+          <circle cx="120" cy="148" r="6" fill="#f0c0a0" stroke="#333" stroke-width="1"/>
+          <text x="108" y="170" font-size="10" fill="#fff" font-family="Nunito" font-weight="bold">You see blue sky!</text>
+        </svg>
+        <div class="diagram-label">Rayleigh scattering: blue light scatters in all directions</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🌫️ Tyndall Effect</h3>
+    <p>When light passes through a <strong>colloidal solution</strong> (tiny particles suspended in a medium), the light is scattered by those particles. The path of the light beam becomes visible. This is the <span class="key-term">Tyndall Effect</span>.</p>
+    <div class="card-row">
+      <div class="callout blue"><strong>Examples of Tyndall Effect:</strong><br>• Light beam visible in a dusty room<br>• Headlight beams visible in foggy weather<br>• Blue colour of smoke from a motorcycle<br>• Why the sky is blue (similar mechanism!)</div>
+      <div class="callout orange"><strong>Why milk is white:</strong> Milk is a colloid containing tiny fat globules. These scatter all colours of light equally, making milk appear white!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🏜️ Mirage Formation</h3>
+    <div class="card-row">
+      <div>
+        <p>A <span class="key-term">mirage</span> is an optical illusion caused by the <strong>refraction</strong> and <strong>total internal reflection</strong> of light in the atmosphere.</p>
+        <p style="margin-top:8px;"><strong>How a desert mirage forms (inferior mirage):</strong></p>
+        <ol style="padding-left:18px;margin-top:6px;font-size:12.5px;line-height:1.8;">
+          <li>The ground gets very hot in the desert, heating the air just above it.</li>
+          <li>Hot air near ground = less dense (lower refractive index)</li>
+          <li>Cooler air higher up = more dense (higher refractive index)</li>
+          <li>Light from the sky bends gradually as it passes through layers of decreasing density.</li>
+          <li>At some layer, the angle exceeds the critical angle → <strong>Total Internal Reflection!</strong></li>
+          <li>The sky image is reflected upward toward the observer — looks like water on the ground!</li>
+        </ol>
+        <div class="callout pink" style="margin-top:10px;"><strong>Superior mirage:</strong> Occurs in cold regions (like Arctic). Cold air near ground, warm air above → objects appear to float in the air!</div>
+      </div>
+      <div class="diagram-container">
+        <svg width="250" height="200" viewBox="0 0 250 200">
+          <!-- Ground (hot) -->
+          <rect x="0" y="170" width="250" height="30" fill="#c8a96e"/>
+          <text x="5" y="188" font-size="9" fill="#7a5c28" font-family="Nunito">Hot ground</text>
+          <!-- Air layers with labels -->
+          <rect x="0" y="130" width="250" height="40" fill="#fdebd0" opacity="0.7"/>
+          <text x="5" y="155" font-size="8" fill="#e67e22" font-family="Nunito">Very hot air (low n)</text>
+          <rect x="0" y="90" width="250" height="40" fill="#fdf2e9" opacity="0.7"/>
+          <text x="5" y="115" font-size="8" fill="#d35400" font-family="Nunito">Hot air (n slightly higher)</text>
+          <rect x="0" y="50" width="250" height="40" fill="#eaf4fb" opacity="0.7"/>
+          <text x="5" y="75" font-size="8" fill="#2980b9" font-family="Nunito">Warm air</text>
+          <rect x="0" y="10" width="250" height="40" fill="#d6eaf8" opacity="0.7"/>
+          <text x="5" y="30" font-size="8" fill="#1a5276" font-family="Nunito">Cool air (high n)</text>
+          <!-- Curved light ray (gradually bending) -->
+          <path d="M 0,20 Q 80,20 120,80 Q 150,130 200,170" fill="none" stroke="#3498db" stroke-width="2"/>
+          <text x="195" y="168" font-size="9" fill="#3498db" font-family="Nunito">Light ray</text>
+          <!-- Observer -->
+          <circle cx="215" cy="110" r="6" fill="#f0c0a0" stroke="#333" stroke-width="1"/>
+          <text x="195" y="130" font-size="9" fill="#333" font-family="Nunito">Observer</text>
+          <!-- Apparent image arrow -->
+          <path d="M 200,170 Q 220,140 215,117" fill="none" stroke="#e67e22" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="8" y="200" font-size="9" fill="#e74c3c" font-family="Nunito">Appears as shimmering "water"!</text>
+        </svg>
+        <div class="diagram-label">Desert mirage: light curves through hot air layers, appearing like water</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ S8 -->
+  <div class="quiz-section" id="quiz-s8">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Scattering &amp; Atmospheric Effects</h4><span class="quiz-badge">5 Questions</span></div>
+    <div id="qs8-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs8-score">0</span>/5</span>
+      <button class="quiz-next-btn" onclick="navigate('s9',null)">Next → Raman Effect</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S9: RAMAN EFFECT =============================== -->
+<div class="section" id="s9">
+  <div class="section-hero">
+    <h2>🔬 The Raman Effect</h2>
+    <p>In 1928, Indian physicist <strong>Sir C.V. Raman</strong> discovered something extraordinary — when light scatters off molecules, some of it changes its colour (frequency)! This discovery won him the <strong>Nobel Prize in Physics in 1930</strong> — India's first Nobel Prize in science!</p>
+  </div>
+
+  <div class="card">
+    <h3>🏆 C.V. Raman — India's Nobel Laureate</h3>
+    <div class="card-row">
+      <div>
+        <p><strong>Sir Chandrasekhara Venkata Raman</strong> (1888–1970) was born in Tiruchirappalli, India. He was deeply curious about why the Mediterranean Sea appeared so brilliantly blue.</p>
+        <p style="margin-top:8px;">While studying the scattering of light through liquids, he discovered that a small fraction of scattered light had a <strong>different wavelength</strong> (colour) from the incident light. This was something completely new — it meant light was interacting with molecules and exchanging energy!</p>
+        <div class="fact-box">
+          <div class="fact-icon">🎖️</div>
+          <p><strong>28 February 1928</strong> — The day Raman announced his discovery. India celebrates this day as <strong>National Science Day</strong> every year in his honour!</p>
+        </div>
+      </div>
+      <div>
+        <div class="callout green">
+          <strong>Types of Raman Scattering:</strong><br><br>
+          <strong>Rayleigh Scattering</strong> (Elastic): Scattered light has the <em>same</em> frequency as incident light. Most common.<br><br>
+          <strong>Raman Scattering</strong> (Inelastic): Scattered light has a <em>different</em> frequency:<br>
+          • <strong>Stokes lines:</strong> Lower frequency (molecule gains energy)<br>
+          • <strong>Anti-Stokes lines:</strong> Higher frequency (molecule loses energy)
+        </div>
+      </div>
+    </div>
+    <div class="formula-box">
+      <div class="formula-label">Raman Shift</div>
+      <div class="formula">Δν = ν₀ − ν_scattered</div>
+      <div class="formula-note">Δν = Raman shift (wavenumber) | ν₀ = frequency of incident light | ν_scattered = frequency of scattered light</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🔬 Applications of Raman Effect</h3>
+    <div class="card-row three">
+      <div class="callout blue"><strong>🧪 Chemical Analysis</strong><br>Each molecule has a unique Raman spectrum — like a molecular fingerprint! Used to identify unknown substances.</div>
+      <div class="callout green"><strong>💊 Medicine &amp; Pharmacy</strong><br>Detecting cancer cells, identifying fake medicines, and studying biological samples without damaging them.</div>
+      <div class="callout orange"><strong>🔒 Security &amp; Forensics</strong><br>Identifying explosives, drugs, and counterfeit currency. Used at airports for security screening!</div>
+    </div>
+    <div class="card-row">
+      <div class="callout pink"><strong>🌌 Astronomy</strong><br>Studying the composition of distant stars and planets using their Raman spectra.</div>
+      <div class="callout green"><strong>🏺 Art Conservation</strong><br>Identifying pigments and materials in ancient paintings and artefacts without touching them!</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💡 How is Raman Scattering Different from Normal Scattering?</h3>
+    <table class="info-table">
+      <tr><th>Property</th><th>Rayleigh Scattering</th><th>Raman Scattering</th></tr>
+      <tr><td>Type</td><td>Elastic (no energy change)</td><td>Inelastic (energy changes)</td></tr>
+      <tr><td>Frequency of scattered light</td><td>Same as incident light</td><td>Different (shifted)</td></tr>
+      <tr><td>Intensity</td><td>Very high (most scattering)</td><td>Very weak (~1 in 10 million photons!)</td></tr>
+      <tr><td>Cause</td><td>Change in direction of photon</td><td>Photon-molecule energy exchange</td></tr>
+      <tr><td>Discovery</td><td>Lord Rayleigh (1871)</td><td>C.V. Raman (1928)</td></tr>
+    </table>
+  </div>
+
+  <!-- QUIZ S9 -->
+  <div class="quiz-section" id="quiz-s9">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Raman Effect</h4><span class="quiz-badge">4 Questions</span></div>
+    <div id="qs9-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs9-score">0</span>/4</span>
+      <button class="quiz-next-btn" onclick="navigate('s10',null)">Next → Human Eye</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S10: HUMAN EYE =============================== -->
+<div class="section" id="s10">
+  <div class="section-hero">
+    <h2>👁️ The Human Eye</h2>
+    <p>The human eye is the most incredible optical instrument ever created! It can automatically adjust for different light levels, distances, and colours — all in fractions of a second. Let's explore this amazing organ that lets you see the colourful world!</p>
+  </div>
+
+  <div class="card">
+    <h3>🔬 Structure of the Human Eye</h3>
+    <div class="card-row">
+      <div>
+        <table class="info-table">
+          <tr><th>Part</th><th>Function</th></tr>
+          <tr><td>🔵 Cornea</td><td>Transparent front covering. Does most (about 2/3) of the focusing of light.</td></tr>
+          <tr><td>💧 Aqueous Humour</td><td>Clear fluid between cornea and lens. Maintains eye pressure.</td></tr>
+          <tr><td>⭕ Iris</td><td>Coloured ring (blue/brown/green). Controls pupil size to regulate light.</td></tr>
+          <tr><td>⚫ Pupil</td><td>Black opening in the iris. Expands in dim light, contracts in bright light.</td></tr>
+          <tr><td>🔍 Crystalline Lens</td><td>Flexible lens that fine-tunes focus. Can change its curvature (accommodation).</td></tr>
+          <tr><td>🔵 Vitreous Humour</td><td>Jelly-like fluid filling the main eye chamber. Maintains eye shape.</td></tr>
+          <tr><td>📺 Retina</td><td>Light-sensitive screen at the back. Contains rods and cones (photoreceptors).</td></tr>
+          <tr><td>🟡 Macula/Fovea</td><td>Most sensitive part of retina — where sharp, colour vision occurs.</td></tr>
+          <tr><td>⚫ Blind Spot</td><td>Where optic nerve exits. No photoreceptors here — no vision!</td></tr>
+          <tr><td>🔌 Optic Nerve</td><td>Carries electrical signals from retina to the brain.</td></tr>
+        </table>
+      </div>
+      <div class="diagram-container">
+        <svg width="260" height="240" viewBox="0 0 260 240" id="eye-svg">
+          <!-- Eye outer shape -->
+          <ellipse cx="130" cy="120" rx="110" ry="95" fill="#ffe5cc" stroke="#c8a06e" stroke-width="2"/>
+          <!-- Sclera (white of eye) -->
+          <ellipse cx="130" cy="120" rx="108" ry="93" fill="#fff"/>
+          <!-- Vitreous humour (main chamber) -->
+          <ellipse cx="138" cy="120" rx="80" ry="82" fill="#e8f4fd" opacity="0.8"/>
+          <!-- Retina (back) -->
+          <path d="M 65,80 Q 50,120 65,160 Q 80,190 130,200 Q 180,195 195,160 Q 212,120 196,80" fill="none" stroke="#f39c12" stroke-width="4" opacity="0.7"/>
+          <text x="100" y="215" font-size="9" fill="#f39c12" font-family="Nunito" font-weight="bold">Retina</text>
+          <!-- Crystalline lens -->
+          <ellipse cx="115" cy="120" rx="12" ry="25" fill="#b8e0ff" stroke="#3498db" stroke-width="2" opacity="0.8"/>
+          <text x="50" y="124" font-size="9" fill="#3498db" font-family="Nunito" font-weight="bold">Lens</text>
+          <line x1="80" y1="122" x2="103" y2="118" stroke="#3498db" stroke-width="0.8"/>
+          <!-- Iris -->
+          <circle cx="100" cy="120" r="22" fill="#8B6914" opacity="0.8"/>
+          <!-- Pupil -->
+          <circle cx="100" cy="120" r="10" fill="#111"/>
+          <!-- Cornea -->
+          <path d="M 84,100 Q 70,120 84,140" fill="none" stroke="#2ecc71" stroke-width="3"/>
+          <text x="38" y="148" font-size="9" fill="#2ecc71" font-family="Nunito" font-weight="bold">Cornea</text>
+          <line x1="64" y1="145" x2="84" y2="138" stroke="#2ecc71" stroke-width="0.8"/>
+          <!-- Aqueous Humour -->
+          <text x="52" y="108" font-size="9" fill="#2980b9" font-family="Nunito" font-weight="bold">Aqueous</text>
+          <text x="55" y="117" font-size="9" fill="#2980b9" font-family="Nunito" font-weight="bold">Humour</text>
+          <!-- Iris label -->
+          <text x="30" y="95" font-size="9" fill="#8B6914" font-family="Nunito" font-weight="bold">Iris</text>
+          <line x1="53" y1="96" x2="80" y2="105" stroke="#8B6914" stroke-width="0.8"/>
+          <!-- Fovea -->
+          <circle cx="165" cy="120" r="5" fill="#e74c3c"/>
+          <text x="170" y="118" font-size="9" fill="#e74c3c" font-family="Nunito" font-weight="bold">Fovea</text>
+          <!-- Blind spot -->
+          <circle cx="170" cy="148" r="5" fill="#555"/>
+          <text x="175" y="152" font-size="9" fill="#555" font-family="Nunito">Blind Spot</text>
+          <!-- Optic nerve -->
+          <rect x="172" y="148" width="38" height="8" fill="#e67e22" rx="4"/>
+          <text x="170" y="166" font-size="9" fill="#e67e22" font-family="Nunito">Optic Nerve</text>
+          <!-- Light ray entering -->
+          <line x1="0" y1="120" x2="78" y2="120" stroke="#f39c12" stroke-width="2" marker-end="url(#arr)"/>
+          <text x="5" y="115" font-size="9" fill="#f39c12" font-family="Nunito" font-weight="bold">Light</text>
+          <!-- Vitreous label -->
+          <text x="128" y="85" font-size="9" fill="#2980b9" font-family="Nunito">Vitreous</text>
+          <text x="128" y="95" font-size="9" fill="#2980b9" font-family="Nunito">Humour</text>
+        </svg>
+        <div class="diagram-label">Cross-section of the human eye showing all major parts</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🎯 Accommodation — The Eye's Auto-Focus!</h3>
+    <div class="card-row">
+      <div>
+        <p><span class="key-term">Accommodation</span> is the eye's remarkable ability to <strong>automatically change the focal length</strong> of its lens to focus on objects at different distances!</p>
+        <p style="margin-top:8px;">How it works:</p>
+        <ul style="margin-top:6px;">
+          <li><strong>Looking at close objects:</strong> Ciliary muscles <em>contract</em> → lens becomes more curved (shorter focal length)</li>
+          <li><strong>Looking at far objects:</strong> Ciliary muscles <em>relax</em> → lens becomes flatter (longer focal length)</li>
+        </ul>
+        <div class="formula-box" style="margin-top:10px;">
+          <div class="formula-label">Important Distances</div>
+          <div class="formula">Near Point = 25 cm (D) &nbsp;|&nbsp; Far Point = ∞</div>
+          <div class="formula-note">Near point (D): closest distance for clear vision = 25 cm (normal adult)<br>Far point: farthest distance for clear vision = infinity (normal eye)</div>
+        </div>
+      </div>
+      <div>
+        <div class="callout green"><strong>🔴 Rods (~ 120 million):</strong><br>Responsible for <strong>low-light vision</strong> (night vision). Sensitive to intensity, not colour. Spread across the retina.</div>
+        <div class="callout blue" style="margin-top:8px;"><strong>🟢 Cones (~ 6-7 million):</strong><br>Responsible for <strong>colour vision</strong> and sharp detail. Three types (red, green, blue sensitive). Concentrated at the fovea.</div>
+        <div class="callout orange" style="margin-top:8px;"><strong>Why we see poorly in low light:</strong> In darkness, cones don't work well — only rods do. Rods can't distinguish colour, so we see in shades of grey at night!</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📡 Brain &amp; Eye Coordination</h3>
+    <p>Seeing is not just about the eye — it's a complex <strong>brain-eye collaboration</strong>!</p>
+    <div class="card-row three">
+      <div class="callout blue"><strong>Step 1:</strong> Light enters the eye and forms a real, inverted image on the retina.</div>
+      <div class="callout green"><strong>Step 2:</strong> Rods and cones convert light to electrical nerve signals. Optic nerve carries these to the brain.</div>
+      <div class="callout orange"><strong>Step 3:</strong> The <strong>visual cortex</strong> in the brain processes signals and "flips" the inverted image — you see right-side up!</div>
+    </div>
+    <div class="fact-box">
+      <div class="fact-icon">🧠</div>
+      <p><strong>Amazing Persistence of Vision:</strong> The retina retains an image for about 1/16th of a second. This is why cinema works — individual frames played fast enough merge into smooth motion!</p>
+    </div>
+  </div>
+
+  <!-- QUIZ S10 -->
+  <div class="quiz-section" id="quiz-s10">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: The Human Eye</h4><span class="quiz-badge">5 Questions</span></div>
+    <div id="qs10-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs10-score">0</span>/5</span>
+      <button class="quiz-next-btn" onclick="navigate('s11',null)">Next → Eye Defects</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S11: EYE DEFECTS =============================== -->
+<div class="section" id="s11">
+  <div class="section-hero">
+    <h2>👓 Eye Defects &amp; How to Correct Them</h2>
+    <p>Sometimes the eye can't focus images perfectly on the retina — this is called a <strong>refractive error</strong>. These are very common and easily corrected with spectacles, contact lenses, or surgery. Let's understand the different types!</p>
+  </div>
+
+  <div class="card">
+    <h3>😔 Myopia (Short-sightedness / Near-sightedness)</h3>
+    <div class="card-row">
+      <div>
+        <p>A <span class="key-term">myopic</span> person can see nearby objects clearly but <strong>distant objects appear blurry</strong>.</p>
+        <p style="margin-top:8px;"><strong>Cause:</strong></p>
+        <ul>
+          <li>Eyeball is too long (elongated)</li>
+          <li>Lens is too curved (excessive curvature)</li>
+          <li>Image forms <em>in front of</em> the retina</li>
+        </ul>
+        <p style="margin-top:8px;"><strong>Correction:</strong> A <strong>concave lens</strong> (diverging) of suitable power is used. It diverges the incoming rays so the image moves back onto the retina.</p>
+        <div class="formula-box" style="margin-top:10px;">
+          <div class="formula-label">Power of Corrective Lens for Myopia</div>
+          <div class="formula">P = 1/f = −1/d_far (in metres)</div>
+          <div class="formula-note">d_far = far point distance of the myopic eye (negative sign → concave lens)</div>
+        </div>
+        <div class="example-box">
+          <div class="ex-title">📝 Example</div>
+          <div class="ex-step">A myopic person can see clearly only up to 2 m. Find corrective lens power.</div>
+          <div class="ex-step">P = −1/d_far = −1/2</div>
+          <div class="ex-answer">P = −0.5 D (concave lens, −ve power)</div>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <svg width="250" height="200" viewBox="0 0 250 200">
+          <!-- Normal eye label -->
+          <text x="5" y="14" font-size="11" fill="#2d6a4f" font-family="Nunito" font-weight="bold">Myopic Eye</text>
+          <!-- Elongated eye -->
+          <ellipse cx="130" cy="55" rx="65" ry="38" fill="#ffe5cc" stroke="#c8a06e" stroke-width="2"/>
+          <ellipse cx="130" cy="55" rx="63" ry="36" fill="#fff"/>
+          <!-- Retina (back) -->
+          <path d="M 75,38 Q 60,55 75,72 Q 90,85 130,90 Q 170,88 185,72 Q 198,55 186,38" fill="none" stroke="#f39c12" stroke-width="3" opacity="0.8"/>
+          <!-- Lens -->
+          <ellipse cx="103" cy="55" rx="8" ry="18" fill="#b8e0ff" stroke="#3498db" stroke-width="2" opacity="0.8"/>
+          <!-- Iris/Pupil -->
+          <circle cx="90" cy="55" r="14" fill="#8B6914" opacity="0.8"/>
+          <circle cx="90" cy="55" r="7" fill="#111"/>
+          <!-- Cornea -->
+          <path d="M 78,42 Q 67,55 78,68" fill="none" stroke="#2ecc71" stroke-width="3"/>
+          <!-- Focus BEFORE retina (myopia problem) -->
+          <circle cx="152" cy="55" r="5" fill="#e74c3c"/>
+          <text x="145" y="48" font-size="9" fill="#e74c3c" font-family="Nunito" font-weight="bold">Image forms HERE</text>
+          <text x="148" y="40" font-size="8" fill="#e74c3c" font-family="Nunito">(before retina!)</text>
+          <!-- Incoming rays converging too soon -->
+          <line x1="25" y1="42" x2="152" y2="55" stroke="#3498db" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="25" y1="68" x2="152" y2="55" stroke="#3498db" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <!-- Retina position -->
+          <text x="172" y="96" font-size="8" fill="#f39c12" font-family="Nunito" font-weight="bold">Retina</text>
+          <!-- Correction section -->
+          <text x="5" y="120" font-size="11" fill="#27ae60" font-family="Nunito" font-weight="bold">Correction: Concave Lens</text>
+          <ellipse cx="130" cy="165" rx="65" ry="28" fill="#ffe5cc" stroke="#c8a06e" stroke-width="2" opacity="0.6"/>
+          <!-- Concave lens symbol -->
+          <path d="M 38,155 Q 28,165 38,175" fill="none" stroke="#e74c3c" stroke-width="3"/>
+          <path d="M 45,155 Q 35,165 45,175" fill="none" stroke="#e74c3c" stroke-width="3"/>
+          <!-- Corrected rays -->
+          <line x1="15" y1="155" x2="38" y2="158" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="38" y1="158" x2="180" y2="165" stroke="#27ae60" stroke-width="2"/>
+          <line x1="15" y1="175" x2="38" y2="172" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="38" y1="172" x2="180" y2="165" stroke="#27ae60" stroke-width="2"/>
+          <circle cx="180" cy="165" r="4" fill="#27ae60"/>
+          <text x="175" y="185" font-size="8" fill="#27ae60" font-family="Nunito" font-weight="bold">On retina ✓</text>
+        </svg>
+        <div class="diagram-label">Myopia: image forms before retina; corrected by concave lens</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>😔 Hypermetropia (Long-sightedness / Far-sightedness)</h3>
+    <div class="card-row">
+      <div>
+        <p>A <span class="key-term">hypermetropic</span> person can see distant objects clearly but <strong>nearby objects appear blurry</strong>.</p>
+        <p style="margin-top:8px;"><strong>Cause:</strong></p>
+        <ul>
+          <li>Eyeball is too short</li>
+          <li>Lens is too flat (insufficient curvature)</li>
+          <li>Image forms <em>behind</em> the retina</li>
+        </ul>
+        <p style="margin-top:8px;"><strong>Correction:</strong> A <strong>convex lens</strong> (converging) of suitable power is used. It converges rays more so the image moves forward onto the retina.</p>
+        <div class="formula-box">
+          <div class="formula-label">Power of Corrective Lens for Hypermetropia</div>
+          <div class="formula">P = 1/f = 1/d_near − 1/D</div>
+          <div class="formula-note">d_near = near point of defective eye (in m) | D = 25 cm = 0.25 m (normal near point)</div>
+        </div>
+        <div class="example-box">
+          <div class="ex-title">📝 Example</div>
+          <div class="ex-step">A person's near point is 1 m. Find the corrective lens power. (Normal near point = 25 cm)</div>
+          <div class="ex-step">P = 1/0.25 − 1/1 = 4 − 1 = 3</div>
+          <div class="ex-answer">P = +3 D (convex lens, +ve power)</div>
+        </div>
+      </div>
+      <div class="diagram-container">
+        <svg width="250" height="180" viewBox="0 0 250 180">
+          <text x="5" y="14" font-size="11" fill="#2d6a4f" font-family="Nunito" font-weight="bold">Hypermetropic Eye</text>
+          <!-- Shorter eye -->
+          <ellipse cx="118" cy="55" rx="52" ry="38" fill="#ffe5cc" stroke="#c8a06e" stroke-width="2"/>
+          <ellipse cx="118" cy="55" rx="50" ry="36" fill="#fff"/>
+          <!-- Retina -->
+          <path d="M 75,38 Q 62,55 75,72 Q 88,82 118,85 Q 148,82 162,72 Q 174,55 163,38" fill="none" stroke="#f39c12" stroke-width="3" opacity="0.8"/>
+          <!-- Iris/Pupil -->
+          <circle cx="82" cy="55" r="14" fill="#8B6914" opacity="0.8"/>
+          <circle cx="82" cy="55" r="7" fill="#111"/>
+          <!-- Cornea -->
+          <path d="M 68,42 Q 57,55 68,68" fill="none" stroke="#2ecc71" stroke-width="3"/>
+          <!-- Lens -->
+          <ellipse cx="96" cy="55" rx="8" ry="18" fill="#b8e0ff" stroke="#3498db" stroke-width="2" opacity="0.8"/>
+          <!-- Focus BEHIND retina -->
+          <circle cx="185" cy="55" r="5" fill="#e74c3c"/>
+          <text x="180" y="46" font-size="9" fill="#e74c3c" font-family="Nunito">Image behind</text>
+          <text x="183" y="38" font-size="8" fill="#e74c3c" font-family="Nunito">retina! ✗</text>
+          <line x1="25" y1="42" x2="185" y2="55" stroke="#3498db" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <line x1="25" y1="68" x2="185" y2="55" stroke="#3498db" stroke-width="1.5" stroke-dasharray="3,2"/>
+          <!-- Correction label -->
+          <text x="5" y="110" font-size="11" fill="#27ae60" font-family="Nunito" font-weight="bold">Correction: Convex (+) Lens</text>
+          <!-- Convex lens symbol -->
+          <ellipse cx="45" cy="148" rx="5" ry="18" fill="rgba(52,152,219,0.3)" stroke="#e74c3c" stroke-width="2"/>
+          <!-- Corrected rays converge on retina -->
+          <line x1="15" y1="134" x2="40" y2="138" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="40" y1="138" x2="155" y2="148" stroke="#27ae60" stroke-width="2"/>
+          <line x1="15" y1="162" x2="40" y2="158" stroke="#3498db" stroke-width="1.5"/>
+          <line x1="40" y1="158" x2="155" y2="148" stroke="#27ae60" stroke-width="2"/>
+          <circle cx="155" cy="148" r="4" fill="#27ae60"/>
+          <text x="148" y="168" font-size="8" fill="#27ae60" font-family="Nunito" font-weight="bold">On retina ✓</text>
+        </svg>
+        <div class="diagram-label">Hypermetropia: image forms behind retina; corrected by convex lens</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-row">
+    <div class="card">
+      <h3>🌀 Astigmatism</h3>
+      <p>The cornea or lens has an <strong>irregular (non-spherical) shape</strong>. Different planes of light focus at different points, causing blurry or distorted vision both near and far.</p>
+      <p style="margin-top:8px;"><strong>Correction:</strong> <strong>Cylindrical lenses</strong> (toric lenses) are used, which have different curvatures in different planes to compensate for the irregular shape.</p>
+      <div class="callout orange" style="margin-top:8px;">People with astigmatism often see lines in certain directions blurry — like seeing a "+" sign as a horizontal line only.</div>
+    </div>
+    <div class="card">
+      <h3>👴 Presbyopia (Age-related)</h3>
+      <p>As people age (usually after 40), the <strong>crystalline lens loses its flexibility</strong> and the <strong>ciliary muscles weaken</strong>. The eye loses its power of accommodation — difficulty focusing on nearby objects.</p>
+      <p style="margin-top:8px;"><strong>Correction:</strong> <strong>Bifocal lenses</strong> — the upper part corrects for distance vision, lower part for near vision. Some use separate reading glasses.</p>
+      <div class="callout blue" style="margin-top:8px;">Presbyopia is NOT a disease — it's a natural part of ageing that happens to almost everyone!</div>
+    </div>
+  </div>
+
+  <!-- COMPARISON TABLE -->
+  <div class="card">
+    <h3>📊 Eye Defects — Quick Comparison</h3>
+    <table class="info-table">
+      <tr><th>Defect</th><th>Near vision</th><th>Far vision</th><th>Cause</th><th>Correction</th></tr>
+      <tr><td>Myopia</td><td>✅ Clear</td><td>❌ Blurry</td><td>Eyeball too long / lens too curved</td><td>Concave lens (−ve power)</td></tr>
+      <tr><td>Hypermetropia</td><td>❌ Blurry</td><td>✅ Clear</td><td>Eyeball too short / lens too flat</td><td>Convex lens (+ve power)</td></tr>
+      <tr><td>Astigmatism</td><td>❌ Distorted</td><td>❌ Distorted</td><td>Irregular cornea/lens shape</td><td>Cylindrical (toric) lens</td></tr>
+      <tr><td>Presbyopia</td><td>❌ Blurry</td><td>Depends</td><td>Ageing — lens inflexible</td><td>Bifocal lenses</td></tr>
+    </table>
+  </div>
+
+  <!-- QUIZ S11 -->
+  <div class="quiz-section" id="quiz-s11">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Eye Defects &amp; Corrections</h4><span class="quiz-badge">5 Questions</span></div>
+    <div id="qs11-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs11-score">0</span>/5</span>
+      <button class="quiz-next-btn" onclick="navigate('s12',null)">Next → Colour &amp; Light</button>
+    </div>
+  </div>
+</div>
+
+<!-- =============================== S12: COLOUR =============================== -->
+<div class="section" id="s12">
+  <div class="section-hero">
+    <h2>🎨 Colour &amp; Light</h2>
+    <p>Why is grass green? Why does red cloth look black under blue light? Why can a TV screen make any colour using just three tiny dots? Colour is one of the most fascinating aspects of light!</p>
+  </div>
+
+  <div class="card">
+    <h3>🔴🟢🔵 Primary Colours of Light</h3>
+    <div class="card-row">
+      <div>
+        <p>The <span class="key-term">primary colours of light</span> are <strong>Red, Green, and Blue (RGB)</strong>. These cannot be made by mixing other colours of light. All other colours of light can be made by combining these three!</p>
+        <div class="callout orange" style="margin-top:10px;"><strong>⚠️ Don't confuse!</strong><br>Primary colours of <strong>LIGHT</strong> = Red, Green, Blue (RGB)<br>Primary colours of <strong>PIGMENTS/PAINT</strong> = Red, Yellow, Blue (RYB)<br>Primary colours for <strong>PRINTING</strong> = Cyan, Magenta, Yellow, Black (CMYK)</div>
+        <table class="info-table" style="margin-top:10px;">
+          <tr><th>Mix of Light Colours</th><th>Result</th></tr>
+          <tr><td>Red + Green</td><td>Yellow 🟡</td></tr>
+          <tr><td>Green + Blue</td><td>Cyan 🩵</td></tr>
+          <tr><td>Red + Blue</td><td>Magenta 💜</td></tr>
+          <tr><td>Red + Green + Blue</td><td>White ⚪</td></tr>
+          <tr><td>None (absence of light)</td><td>Black ⬛</td></tr>
+        </table>
+      </div>
+      <div class="diagram-container">
+        <canvas id="colour-canvas" width="240" height="220"></canvas>
+        <div class="diagram-label">Additive colour mixing of light (RGB)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>🎨 Why Objects Have Colour</h3>
+    <div class="card-row">
+      <div class="callout green"><strong>🌿 Why leaves are green:</strong> Leaves contain chlorophyll which <strong>absorbs</strong> red and blue light but <strong>reflects</strong> green light. We see what is reflected!</div>
+      <div class="callout red" style="background:#fce4ec;border-left:4px solid #e74c3c;color:#c0392b;"><strong>🍅 Why tomatoes are red:</strong> They reflect red light and absorb all other colours. Simple but brilliant!</div>
+    </div>
+    <div class="callout blue" style="margin-top:8px;"><strong>Key rule:</strong> The colour of an opaque object = the colour(s) of light it <em>reflects</em>. It absorbs all other colours.</div>
+    <div class="callout orange" style="margin-top:8px;"><strong>Colour under different light:</strong> A red object under blue light looks <strong>black</strong> — because blue light has no red for the object to reflect! This is why actors in theatre use coloured lights for dramatic effects.</div>
+  </div>
+
+  <div class="card">
+    <h3>🌈 Complementary Colours</h3>
+    <p><span class="key-term">Complementary colours</span> are pairs of colours that, when mixed as light, produce white light!</p>
+    <div class="card-row three">
+      <div class="callout blue" style="text-align:center;"><strong>🔴 Red</strong><br>+<br><strong>🩵 Cyan</strong><br>=⚪ White</div>
+      <div class="callout green" style="text-align:center;"><strong>🟢 Green</strong><br>+<br><strong>💜 Magenta</strong><br>= ⚪ White</div>
+      <div class="callout orange" style="text-align:center;"><strong>🔵 Blue</strong><br>+<br><strong>🟡 Yellow</strong><br>= ⚪ White</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>💡 Some Additional Light Topics</h3>
+    <div class="card-row">
+      <div>
+        <p><strong>Polarization of Light:</strong> Light waves vibrate in all directions. A polarizing filter allows only light vibrating in one direction to pass. This is how polaroid sunglasses work — they block glare (horizontally polarized light reflected from surfaces)!</p>
+        <div class="callout green" style="margin-top:8px;"><strong>Luminescence:</strong> Some materials emit light without getting hot. Types:<br>• <strong>Fluorescence</strong>: Emits light only while being excited (glow-in-dark stickers that stop when light is removed)<br>• <strong>Phosphorescence</strong>: Continues to glow after the source is removed (glow-in-dark toys!)<br>• <strong>Bioluminescence</strong>: Living organisms produce light (fireflies, deep-sea fish!)</div>
+      </div>
+      <div>
+        <p><strong>Optical Instruments — Overview:</strong></p>
+        <table class="info-table">
+          <tr><th>Instrument</th><th>Uses</th><th>Lens type</th></tr>
+          <tr><td>Magnifying glass</td><td>Enlarging small objects</td><td>Single convex lens</td></tr>
+          <tr><td>Microscope</td><td>Viewing microscopic objects</td><td>Two convex lenses (objective + eyepiece)</td></tr>
+          <tr><td>Telescope</td><td>Viewing distant objects</td><td>Two lenses or mirrors</td></tr>
+          <tr><td>Camera</td><td>Capturing images</td><td>Convex lens system</td></tr>
+          <tr><td>Projector</td><td>Enlarging images on screen</td><td>Convex lens</td></tr>
+          <tr><td>Periscope</td><td>Seeing over obstacles</td><td>Two plane mirrors (or prisms)</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUIZ S12 -->
+  <div class="quiz-section" id="quiz-s12">
+    <div class="quiz-header"><h4>🧠 Quick Quiz: Colour &amp; Light</h4><span class="quiz-badge">4 Questions</span></div>
+    <div id="qs12-container"></div>
+    <div class="quiz-score-bar">
+      <span>Score: <span id="qs12-score">0</span>/4</span>
+      <button class="quiz-next-btn" onclick="navigate('home',null)">🏠 Back to Home</button>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- SCROLL TO TOP -->
+<button id="scroll-top" onclick="window.scrollTo({top:0,behavior:'smooth'})">⬆</button>
+
+<!-- SCORE MODAL -->
+<div id="score-modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.5);z-index:2000;align-items:center;justify-content:center;">
+  <div style="background:var(--card);border-radius:16px;padding:28px;max-width:500px;width:90%;max-height:80vh;overflow-y:auto;">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+      <h3 style="font-family:var(--heading-font);font-size:20px;color:var(--accent);">🏆 My Quiz Scores</h3>
+      <button onclick="closeScoreBoard()" style="background:none;border:none;font-size:22px;cursor:pointer;">✕</button>
+    </div>
+    <div id="score-details"></div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// NAVIGATION
+// ============================================================
+const visitedSections = new Set(['home']);
+let currentSection = 'home';
+let startTime = Date.now();
+
+function navigate(sectionId, clickedEl) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  const section = document.getElementById(sectionId);
+  if(section) { section.classList.add('active'); window.scrollTo({top:55,behavior:'smooth'}); }
+  if(clickedEl) { clickedEl.classList.add('active'); }
+  else {
+    const navItem = document.querySelector(`.nav-item[data-section="${sectionId}"]`);
+    if(navItem) navItem.classList.add('active');
+  }
+  visitedSections.add(sectionId);
+  currentSection = sectionId;
+  document.querySelectorAll('.nav-item').forEach(n => {
+    if(visitedSections.has(n.dataset.section)) n.classList.add('visited');
+  });
+  updateProgress();
+  trackSectionVisit(sectionId);
+  // Draw simulations when section becomes active
+  setTimeout(() => {
+    if(sectionId === 's3') drawMirrorSim();
+    if(sectionId === 's4') drawLensSim();
+    if(sectionId === 's5') drawTIRSim();
+    if(sectionId === 's6') drawPrismSim();
+    if(sectionId === 's7') drawInterferenceSim();
+    if(sectionId === 's12') drawColourSim();
+  }, 100);
+}
+
+function updateProgress() {
+  const total = 13;
+  const visited = visitedSections.size;
+  document.getElementById('visit-count').textContent = visited;
+  document.getElementById('progress-fill').style.width = (visited/total*100)+'%';
+  document.getElementById('an-sections').textContent = visited;
+}
+
+// ============================================================
+// ANALYTICS & VISITOR COUNTER
+// ============================================================
+let analytics = JSON.parse(localStorage.getItem('lightworld_analytics') || '{"visits":0,"sections":{},"quizzes":0,"score":0,"correct":0}');
+analytics.visits++;
+let visitCount = parseInt(localStorage.getItem('lightworld_visitors') || '0') + 1;
+localStorage.setItem('lightworld_visitors', visitCount);
+localStorage.setItem('lightworld_analytics', JSON.stringify(analytics));
+document.getElementById('visitor-count').textContent = visitCount;
+document.getElementById('an-visits').textContent = analytics.visits;
+document.getElementById('an-quizzes').textContent = analytics.quizzes;
+document.getElementById('an-score').textContent = analytics.score;
+document.getElementById('an-streak').textContent = analytics.correct;
+
+function trackSectionVisit(id) {
+  analytics.sections[id] = (analytics.sections[id]||0)+1;
+  localStorage.setItem('lightworld_analytics', JSON.stringify(analytics));
+}
+
+function updateTimeSpent() {
+  const mins = Math.floor((Date.now() - startTime) / 60000);
+  document.getElementById('an-time').textContent = mins + 'm';
+}
+setInterval(updateTimeSpent, 30000);
+
+// ============================================================
+// SCROLL TO TOP
+// ============================================================
+document.getElementById('main-content').addEventListener('scroll', function(){
+  document.getElementById('scroll-top').style.display = this.scrollTop > 200 ? 'block' : 'none';
+});
+
+// ============================================================
+// MIRROR SIMULATION
+// ============================================================
+function drawMirrorSim() {
+  const canvas = document.getElementById('mirror-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  
+  const type = document.getElementById('mirror-type').value;
+  const uVal = parseInt(document.getElementById('mirror-u').value);
+  document.getElementById('mirror-u-val').textContent = uVal + ' cm';
+  
+  // Background
+  ctx.fillStyle = '#f8f4e6';
+  ctx.fillRect(0,0,W,H);
+  
+  const cx = W/2, cy = H/2; // Centre of mirror (pole)
+  const scale = 3; // pixels per cm (f=50px → 50/3≈16.7 cm, we'll use f=50px → f_cm=50/scale)
+  const f_px = 80; // focal length in pixels
+  const f = f_px / scale; // focal length in cm ≈ 26.7 cm
+  const R_px = f_px * 2;
+  
+  // Principal axis
+  ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
+  ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(20, cy); ctx.lineTo(W-20, cy); ctx.stroke();
+  ctx.setLineDash([]);
+  
+  if(type === 'plane') {
+    // Plane mirror
+    ctx.strokeStyle = '#2d6a4f'; ctx.lineWidth = 6;
+    ctx.beginPath(); ctx.moveTo(cx, cy-80); ctx.lineTo(cx, cy+80); ctx.stroke();
+    
+    // Object
+    const objX = cx - uVal*scale;
+    if(objX > 20) {
+      drawArrow(ctx, objX, cy, objX, cy-50, '#e74c3c');
+      ctx.fillStyle='#e74c3c'; ctx.font='11px Nunito'; ctx.fillText('Object',objX-28,cy+14);
+    }
+    // Image (virtual, behind mirror, same distance)
+    const imgX = cx + uVal*scale;
+    if(imgX < W-20) {
+      drawArrow(ctx, imgX, cy, imgX, cy-50, '#3498db', true);
+      ctx.fillStyle='#3498db'; ctx.font='11px Nunito'; ctx.fillText('Image',imgX-20,cy+14);
+    }
+    document.getElementById('mirror-output').innerHTML = `📌 Plane Mirror | u = −${uVal} cm | v = +${uVal} cm | m = +1.0\n✅ Image: Virtual • Erect • Same size • Behind mirror`;
+    return;
+  }
+  
+  // Curved mirror: pole at cx, opening toward left
+  const u_cm = -uVal; // negative (in front of mirror)
+  const f_cm = type === 'concave' ? -f : f; // concave: f negative, convex: f positive
+  
+  let v_cm, m;
+  if(Math.abs(u_cm - f_cm) < 0.5) { v_cm = u_cm < 0 ? -9999 : 9999; m = u_cm < 0 ? 9999 : -9999; }
+  else { v_cm = 1/(1/f_cm - 1/u_cm); m = -v_cm/u_cm; }
+  
+  // Draw mirror arc
+  ctx.strokeStyle = '#2d6a4f'; ctx.lineWidth = 5;
+  if(type === 'concave') {
+    ctx.beginPath();
+    ctx.arc(cx + R_px, cy, R_px, Math.PI*0.6, Math.PI*1.4, false);
+    ctx.stroke();
+  } else {
+    ctx.beginPath();
+    ctx.arc(cx - R_px, cy, R_px, -Math.PI*0.4, Math.PI*0.4, false);
+    ctx.stroke();
+  }
+  
+  // Label F and C
+  const fX = cx + f_cm * scale; // note: for concave f_cm is negative → fX < cx (in front)
+  const cX = cx + 2*f_cm * scale;
+  
+  ctx.fillStyle = '#e74c3c'; ctx.font = 'bold 12px Nunito';
+  ctx.beginPath(); ctx.arc(fX, cy, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('F', fX-8, cy-10);
+  
+  ctx.fillStyle = '#9b59b6';
+  ctx.beginPath(); ctx.arc(cX, cy, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('C', cX-8, cy-10);
+  
+  // Pole label
+  ctx.fillStyle='#2d6a4f'; ctx.font='11px Nunito'; ctx.fillText('P',cx+4,cy+14);
+  
+  // Object
+  const objX = cx + u_cm * scale; // u_cm is negative → to left of mirror
+  const objH = 50;
+  if(objX > 20 && objX < cx-5) {
+    drawArrow(ctx, objX, cy, objX, cy-objH, '#e74c3c');
+    ctx.fillStyle='#e74c3c'; ctx.font='11px Nunito'; ctx.fillText('Obj',objX-12,cy+14);
+  }
+  
+  // Image
+  const imgX = cx + v_cm * scale;
+  const imgH = objH * Math.abs(m);
+  const isReal = v_cm < 0; // real image if v is negative (in front of mirror)
+  const isErect = m > 0;
+  
+  if(isFinite(v_cm) && Math.abs(imgH) < 120 && imgX > 10 && imgX < W-10) {
+    const imgDir = isErect ? -1 : 1;
+    drawArrow(ctx, imgX, cy, imgX, cy - imgDir * Math.min(imgH, 80), '#3498db', !isReal);
+    ctx.fillStyle='#3498db'; ctx.font='11px Nunito';
+    ctx.fillText('Img',imgX-10, cy+(isReal?14:-16));
+  }
+  
+  // Rays
+  ctx.strokeStyle='#f39c12'; ctx.lineWidth=1.5; ctx.setLineDash([4,3]);
+  // Ray 1: parallel to axis → through/from F
+  if(objX > 20 && objX < cx-5) {
+    ctx.beginPath(); ctx.moveTo(objX, cy-objH); ctx.lineTo(cx, cy-objH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.strokeStyle='#f39c12'; ctx.lineWidth=1.5;
+    if(isFinite(v_cm)) {
+      ctx.beginPath(); ctx.moveTo(cx, cy-objH); ctx.lineTo(fX, cy); 
+      if(imgX > 0 && imgX < W) { ctx.lineTo(imgX, cy-Math.sign(m)*Math.min(imgH,80)*0.5); }
+      ctx.stroke();
+    }
+    ctx.setLineDash([4,3]);
+  }
+  ctx.setLineDash([]);
+  
+  // Info output
+  let nature = '';
+  if(!isFinite(v_cm)) { nature = '∞ (at infinity)'; }
+  else {
+    nature = (isReal ? 'Real' : 'Virtual') + ' • ' + (isErect ? 'Erect' : 'Inverted') + ' • ';
+    if(Math.abs(m) > 1.05) nature += 'Magnified';
+    else if(Math.abs(m) < 0.95) nature += 'Diminished';
+    else nature += 'Same size';
+  }
+  
+  document.getElementById('mirror-output').innerHTML = 
+    `📌 ${type.charAt(0).toUpperCase()+type.slice(1)} Mirror | f = ${f_cm.toFixed(1)} cm | u = ${u_cm.toFixed(1)} cm\n📍 v = ${isFinite(v_cm)?v_cm.toFixed(1):'∞'} cm | m = ${isFinite(m)?m.toFixed(2):'∞'}\n✅ Image: ${nature}`;
+}
+
+function drawArrow(ctx, x1, y1, x2, y2, color, dashed=false) {
+  ctx.strokeStyle = color; ctx.fillStyle = color; ctx.lineWidth = 2.5;
+  if(dashed) ctx.setLineDash([5,3]); else ctx.setLineDash([]);
+  ctx.beginPath(); ctx.moveTo(x1,y1); ctx.lineTo(x2,y2); ctx.stroke();
+  ctx.setLineDash([]);
+  // Arrowhead
+  const angle = Math.atan2(y2-y1, x2-x1);
+  ctx.beginPath();
+  ctx.moveTo(x2,y2);
+  ctx.lineTo(x2-10*Math.cos(angle-0.3), y2-10*Math.sin(angle-0.3));
+  ctx.lineTo(x2-10*Math.cos(angle+0.3), y2-10*Math.sin(angle+0.3));
+  ctx.closePath(); ctx.fill();
+}
+
+// ============================================================
+// LENS SIMULATION
+// ============================================================
+function drawLensSim() {
+  const canvas = document.getElementById('lens-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  
+  const type = document.getElementById('lens-type').value;
+  const uVal = parseInt(document.getElementById('lens-u').value);
+  document.getElementById('lens-u-val').textContent = uVal + ' cm';
+  
+  ctx.fillStyle = '#f8f4e6'; ctx.fillRect(0,0,W,H);
+  
+  const cx = W/2, cy = H/2;
+  const scale = 3;
+  const f_cm = type === 'convex' ? 20 : -20;
+  const f_px = f_cm * scale;
+  
+  // Principal axis
+  ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(20,cy); ctx.lineTo(W-20,cy); ctx.stroke();
+  ctx.setLineDash([]);
+  
+  // Draw lens
+  ctx.strokeStyle = '#2d6a4f'; ctx.lineWidth = 4;
+  if(type === 'convex') {
+    // Double convex
+    ctx.beginPath();
+    ctx.arc(cx-20, cy, 80, -Math.PI*0.35, Math.PI*0.35, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx+20, cy, 80, Math.PI*0.65, Math.PI*1.35, false);
+    ctx.stroke();
+  } else {
+    // Double concave
+    ctx.beginPath();
+    ctx.arc(cx+40, cy, 80, Math.PI*0.65, Math.PI*1.35, false);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.arc(cx-40, cy, 80, -Math.PI*0.35, Math.PI*0.35, false);
+    ctx.stroke();
+  }
+  
+  // Label F1 and F2
+  const f1X = cx - Math.abs(f_px), f2X = cx + Math.abs(f_px);
+  ctx.fillStyle='#e74c3c'; ctx.font='bold 12px Nunito';
+  ctx.beginPath(); ctx.arc(f1X, cy, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('F₁',f1X-14,cy-8);
+  ctx.beginPath(); ctx.arc(f2X, cy, 5, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('F₂',f2X+4,cy-8);
+  
+  // Optical centre
+  ctx.fillStyle='#2d6a4f'; ctx.font='11px Nunito';
+  ctx.beginPath(); ctx.arc(cx, cy, 4, 0, Math.PI*2); ctx.fill();
+  ctx.fillText('O',cx+4,cy-8);
+  
+  // Lens formula: 1/v - 1/u = 1/f  (u is negative)
+  const u_cm = -uVal;
+  let v_cm, m;
+  const denom = 1/f_cm - 1/u_cm;
+  if(Math.abs(denom) < 0.001) { v_cm = uVal > 0 ? 9999 : -9999; m = 9999; }
+  else { v_cm = 1 / denom; m = v_cm / u_cm; }
+  
+  // Object
+  const objX = cx + u_cm * scale;
+  const objH = 50;
+  if(objX > 20) {
+    drawArrow(ctx, objX, cy, objX, cy-objH, '#e74c3c');
+    ctx.fillStyle='#e74c3c'; ctx.font='11px Nunito'; ctx.fillText('Obj',objX-12,cy+14);
+  }
+  
+  // Image
+  const imgX = cx + v_cm * scale;
+  const imgH = Math.abs(objH * m);
+  const isReal = v_cm > 0;
+  const isErect = m > 0;
+  
+  if(isFinite(v_cm) && imgH < 120 && imgX > 10 && imgX < W-10) {
+    const imgDir = isErect ? -1 : 1;
+    drawArrow(ctx, imgX, cy, imgX, cy - imgDir * Math.min(imgH,80), '#3498db', !isReal);
+    ctx.fillStyle='#3498db'; ctx.font='11px Nunito';
+    ctx.fillText('Img', imgX-10, cy+(isReal?14:-16));
+  }
+  
+  let nature = '';
+  if(!isFinite(v_cm)) nature = '∞ (at infinity)';
+  else {
+    nature = (isReal ? 'Real' : 'Virtual') + ' • ' + (isErect ? 'Erect' : 'Inverted') + ' • ';
+    if(Math.abs(m) > 1.05) nature += 'Magnified';
+    else if(Math.abs(m) < 0.95) nature += 'Diminished';
+    else nature += 'Same size';
+  }
+  
+  const power = (1/(f_cm/100)).toFixed(2);
+  document.getElementById('lens-output').innerHTML =
+    `📌 ${type.charAt(0).toUpperCase()+type.slice(1)} Lens | f = ${f_cm} cm | P = ${power} D | u = ${u_cm} cm\n📍 v = ${isFinite(v_cm)?v_cm.toFixed(1):'∞'} cm | m = ${isFinite(m)?m.toFixed(2):'∞'}\n✅ Image: ${nature}`;
+}
+
+// ============================================================
+// TIR SIMULATION
+// ============================================================
+function drawTIRSim() {
+  const canvas = document.getElementById('tir-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  
+  const angle = parseInt(document.getElementById('tir-angle').value);
+  const n = parseFloat(document.getElementById('tir-medium').value);
+  document.getElementById('tir-angle-val').textContent = angle + '°';
+  
+  const criticalAngle = Math.asin(1/n) * 180 / Math.PI;
+  const isTIR = angle >= criticalAngle;
+  
+  ctx.fillStyle = '#e8f4fd'; ctx.fillRect(0,0,W,H/2); // Air
+  ctx.fillStyle = '#c0d8f0'; ctx.fillRect(0,H/2,W,H/2); // Glass
+  ctx.fillStyle = '#1a5276'; ctx.font = 'bold 12px Nunito';
+  ctx.fillText('Air (n = 1.0)', 10, 20);
+  ctx.fillText(`Dense Medium (n = ${n})`, 10, H/2+20);
+  
+  // Boundary
+  ctx.strokeStyle = '#2980b9'; ctx.lineWidth = 2;
+  ctx.beginPath(); ctx.moveTo(0,H/2); ctx.lineTo(W,H/2); ctx.stroke();
+  
+  // Centre of incidence
+  const cx = W/2, cy = H/2;
+  
+  // Normal
+  ctx.strokeStyle = '#e74c3c'; ctx.lineWidth = 1.5; ctx.setLineDash([5,4]);
+  ctx.beginPath(); ctx.moveTo(cx, 20); ctx.lineTo(cx, H-20); ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='#e74c3c'; ctx.font='11px Nunito'; ctx.fillText('Normal',cx+5,25);
+  
+  // Incident ray (from inside glass, going up)
+  const ang_rad = angle * Math.PI / 180;
+  const incStartX = cx - Math.sin(ang_rad) * 120;
+  const incStartY = cy + Math.cos(ang_rad) * 120;
+  
+  // Draw incident ray
+  ctx.strokeStyle = '#f39c12'; ctx.lineWidth = 2.5;
+  ctx.beginPath(); ctx.moveTo(incStartX, incStartY); ctx.lineTo(cx, cy); ctx.stroke();
+  
+  // Draw arrowhead on incident ray
+  const iang = Math.atan2(cy - incStartY, cx - incStartX);
+  ctx.fillStyle='#f39c12';
+  ctx.beginPath();
+  ctx.moveTo(cx, cy);
+  ctx.lineTo(cx-12*Math.cos(iang-0.3), cy-12*Math.sin(iang-0.3));
+  ctx.lineTo(cx-12*Math.cos(iang+0.3), cy-12*Math.sin(iang+0.3));
+  ctx.closePath(); ctx.fill();
+  
+  ctx.fillStyle='#f39c12'; ctx.font='11px Nunito';
+  ctx.fillText('Incident ray', incStartX-80, incStartY+5);
+  
+  // Angle label
+  ctx.strokeStyle='#f39c12'; ctx.lineWidth=1;
+  ctx.beginPath(); ctx.arc(cx, cy, 30, -Math.PI/2, -Math.PI/2+ang_rad); ctx.stroke();
+  ctx.fillStyle='#f39c12'; ctx.font='bold 12px Nunito';
+  ctx.fillText(`${angle}°`, cx+8, cy-15);
+  
+  if(isTIR) {
+    // Total Internal Reflection
+    // Reflected ray (going back into glass)
+    const refX = cx + Math.sin(ang_rad) * 120;
+    const refY = cy + Math.cos(ang_rad) * 120;
+    ctx.strokeStyle = '#27ae60'; ctx.lineWidth = 2.5;
+    ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(refX, refY); ctx.stroke();
+    const rang = Math.atan2(refY-cy, refX-cx);
+    ctx.fillStyle='#27ae60';
+    ctx.beginPath();
+    ctx.moveTo(refX, refY);
+    ctx.lineTo(refX-12*Math.cos(rang-0.3), refY-12*Math.sin(rang-0.3));
+    ctx.lineTo(refX-12*Math.cos(rang+0.3), refY-12*Math.sin(rang+0.3));
+    ctx.closePath(); ctx.fill();
+    ctx.fillStyle='#27ae60'; ctx.font='11px Nunito';
+    ctx.fillText('TIR! Reflected ray', refX+5, refY-5);
+    
+    // TIR label banner
+    ctx.fillStyle='rgba(39,174,96,0.15)'; ctx.fillRect(0,0,W,H/2);
+    ctx.fillStyle='#27ae60'; ctx.font='bold 16px Baloo 2';
+    ctx.fillText('✅ TOTAL INTERNAL REFLECTION!', W/2-130, 40);
+    ctx.font='12px Nunito';
+    ctx.fillText(`No refracted ray — light is completely reflected back!`, W/2-140, 60);
+    
+    document.getElementById('tir-output').innerHTML = `🌟 TIR OCCURRING! | Angle: ${angle}° > Critical Angle: ${criticalAngle.toFixed(1)}°\nLight is completely reflected back into the denser medium! ✅`;
+  } else {
+    // Refracted ray in air
+    const sinRefracted = n * Math.sin(ang_rad);
+    let refractedAngle;
+    if(sinRefracted <= 1) {
+      refractedAngle = Math.asin(sinRefracted);
+      const refX2 = cx + Math.sin(refractedAngle) * 120;
+      const refY2 = cy - Math.cos(refractedAngle) * 120;
+      ctx.strokeStyle='#3498db'; ctx.lineWidth=2.5;
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(refX2,refY2); ctx.stroke();
+      const rang2 = Math.atan2(refY2-cy, refX2-cx);
+      ctx.fillStyle='#3498db';
+      ctx.beginPath();
+      ctx.moveTo(refX2,refY2);
+      ctx.lineTo(refX2-12*Math.cos(rang2-0.3),refY2-12*Math.sin(rang2-0.3));
+      ctx.lineTo(refX2-12*Math.cos(rang2+0.3),refY2-12*Math.sin(rang2+0.3));
+      ctx.closePath(); ctx.fill();
+      ctx.fillStyle='#3498db'; ctx.font='11px Nunito';
+      ctx.fillText('Refracted ray', refX2+5, refY2);
+      ctx.fillStyle='#3498db'; ctx.font='bold 12px Nunito';
+      ctx.fillText(`${(refractedAngle*180/Math.PI).toFixed(1)}°`, cx+5, cy-40);
+    }
+    document.getElementById('tir-output').innerHTML = `📌 Angle: ${angle}° < Critical Angle: ${criticalAngle.toFixed(1)}° — Light passes through (refraction occurs)\nIncrease angle to ≥ ${criticalAngle.toFixed(1)}° to see Total Internal Reflection!`;
+  }
+  
+  // Critical angle label
+  ctx.fillStyle='#555'; ctx.font='11px Nunito';
+  ctx.fillText(`Critical Angle = ${criticalAngle.toFixed(1)}°`, 10, H-10);
+}
+
+// ============================================================
+// PRISM SIMULATION
+// ============================================================
+function drawPrismSim() {
+  const canvas = document.getElementById('prism-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  
+  ctx.fillStyle = '#f8f4e6'; ctx.fillRect(0,0,W,H);
+  
+  // Draw prism
+  ctx.beginPath();
+  ctx.moveTo(W*0.4, H*0.1);
+  ctx.lineTo(W*0.7, H*0.85);
+  ctx.lineTo(W*0.1, H*0.85);
+  ctx.closePath();
+  ctx.fillStyle = 'rgba(100,180,220,0.25)';
+  ctx.fill();
+  ctx.strokeStyle = '#2d6a4f'; ctx.lineWidth = 3;
+  ctx.stroke();
+  
+  // Prism label
+  ctx.fillStyle = '#2d6a4f'; ctx.font = 'bold 12px Nunito';
+  ctx.fillText('Glass Prism', W*0.25, H*0.88+15);
+  
+  // Incident white ray
+  ctx.strokeStyle = '#888'; ctx.lineWidth = 3;
+  ctx.beginPath(); ctx.moveTo(10, H*0.35); ctx.lineTo(W*0.32, H*0.52); ctx.stroke();
+  ctx.fillStyle='#555'; ctx.font='11px Nunito';
+  ctx.fillText('White light', 5, H*0.32);
+  
+  // Dispersed colours emerging from prism
+  const colours = ['#8b00ff','#4400ff','#0000ff','#00aa88','#aacc00','#ff9900','#ff2200'];
+  const baseAngle = 0.4;
+  const spread = 0.07;
+  colours.forEach((c, i) => {
+    const exitAngle = baseAngle + i * spread - spread * 3;
+    const exitX = W * 0.62;
+    const exitY = H * 0.55 + i * 5;
+    const endX = W - 20;
+    const endY = exitY + (endX - exitX) * Math.tan(exitAngle + i*0.04 - 0.08);
+    ctx.strokeStyle = c; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(exitX, exitY); ctx.lineTo(endX, Math.max(10,Math.min(H-20,endY))); ctx.stroke();
+  });
+  
+  // Colour labels on right
+  const colNames = ['Violet','Indigo','Blue','Green','Yellow','Orange','Red'];
+  colours.forEach((c, i) => {
+    ctx.fillStyle = c; ctx.font = 'bold 10px Nunito';
+    ctx.fillText(colNames[i], W-60, H*0.25 + i*22);
+  });
+  
+  ctx.fillStyle = '#333'; ctx.font = '10px Nunito';
+  ctx.fillText('V I B G Y O R', W-62, H*0.25 + 7*22);
+}
+
+// ============================================================
+// INTERFERENCE SIMULATION
+// ============================================================
+function drawInterferenceSim() {
+  const canvas = document.getElementById('interference-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#111'; ctx.fillRect(0,0,W,H);
+  
+  // Draw interference pattern (fringes)
+  const cx = W/2, cy = H/2;
+  const numFringes = 12;
+  const fringe_w = W/(numFringes*2+1);
+  
+  for(let i = -numFringes; i <= numFringes; i++) {
+    const x = cx + i * fringe_w;
+    const intensity = Math.cos(i * Math.PI) > 0 ? 1 : 0;
+    if(intensity > 0) {
+      const alpha = Math.max(0, 1 - Math.abs(i)/numFringes);
+      ctx.fillStyle = `rgba(255,220,50,${alpha})`;
+      ctx.fillRect(x - fringe_w*0.35, 20, fringe_w*0.7, H-40);
+    }
+  }
+  
+  // Label
+  ctx.fillStyle='rgba(255,255,255,0.8)'; ctx.font='11px Nunito';
+  ctx.fillText('Bright fringes (constructive)', 40, H-10);
+  ctx.fillStyle='rgba(150,150,150,0.8)';
+  ctx.fillText('← dark (destructive) →', W/2-55, H-10);
+  
+  // Two slits on left
+  ctx.fillStyle='#aaa'; ctx.font='12px Nunito';
+  ctx.fillText('S₁', 8, cy-20);
+  ctx.fillText('S₂', 8, cy+28);
+  ctx.fillStyle='#fff'; ctx.fillRect(18, cy-15, 4, 10);
+  ctx.fillRect(18, cy+18, 4, 10);
+  ctx.fillStyle='#555'; ctx.fillRect(18, cy+5, 4, 12);
+}
+
+// ============================================================
+// COLOUR MIXING SIMULATION
+// ============================================================
+function drawColourSim() {
+  const canvas = document.getElementById('colour-canvas');
+  if(!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width, H = canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle = '#111'; ctx.fillRect(0,0,W,H);
+  
+  const cx = W/2, cy = H/2;
+  const r = 65;
+  const d = 45;
+  
+  // Three overlapping circles (additive colour mixing)
+  // Red
+  ctx.globalCompositeOperation = 'screen';
+  ctx.beginPath(); ctx.arc(cx, cy-d, r, 0, Math.PI*2);
+  ctx.fillStyle = '#ff3333'; ctx.fill();
+  
+  // Green
+  ctx.beginPath(); ctx.arc(cx-d*0.87, cy+d*0.5, r, 0, Math.PI*2);
+  ctx.fillStyle = '#33ff33'; ctx.fill();
+  
+  // Blue
+  ctx.beginPath(); ctx.arc(cx+d*0.87, cy+d*0.5, r, 0, Math.PI*2);
+  ctx.fillStyle = '#3333ff'; ctx.fill();
+  
+  ctx.globalCompositeOperation = 'source-over';
+  
+  // Labels
+  ctx.fillStyle='#ff9999'; ctx.font='bold 12px Nunito'; ctx.fillText('Red',cx-12,cy-d-r+14);
+  ctx.fillStyle='#99ff99'; ctx.fillText('Green',cx-d*0.87-20,cy+d*0.5+r-5);
+  ctx.fillStyle='#9999ff'; ctx.fillText('Blue',cx+d*0.87-10,cy+d*0.5+r-5);
+  
+  // Centre (white)
+  ctx.fillStyle='#eee'; ctx.font='10px Nunito'; ctx.fillText('White',cx-16,cy+5);
+  ctx.fillStyle='#ffff88'; ctx.fillText('Yellow',cx-48, cy+d*0.5-2);
+  ctx.fillStyle='#88ffff'; ctx.fillText('Cyan',cx+20,cy+d*0.5-2);
+  ctx.fillStyle='#ff88ff'; ctx.fillText('Magenta',cx-24,cy-d*0.3);
+}
+
+// ============================================================
+// AUTO-DRAW SIMS ON FIRST LOAD
+// ============================================================
+setTimeout(drawPrismSim, 500);
+setTimeout(drawInterferenceSim, 500);
+
+// ============================================================
+// QUIZ SYSTEM
+// ============================================================
+const allQuizzes = {
+  's1': [
+    {q:'What is the speed of light in vacuum?', opts:['3×10⁸ m/s','3×10⁶ m/s','3×10¹⁰ m/s','3×10⁴ m/s'], ans:0, exp:'Light travels at 3×10⁸ m/s (300,000 km/s) in vacuum — the fastest speed in the universe!'},
+    {q:'Which of the following is a LUMINOUS object?', opts:['Moon','Mirror','The Sun','A rock'], ans:2, exp:'The Sun produces its own light, so it is luminous. The Moon only reflects sunlight!'},
+    {q:'Which colour of visible light has the HIGHEST frequency?', opts:['Red','Yellow','Green','Violet'], ans:3, exp:'Violet has the shortest wavelength and therefore the highest frequency (f = c/λ)!'},
+    {q:'Light is which type of wave?', opts:['Longitudinal','Transverse','Sound','Mechanical'], ans:1, exp:'Light is a transverse electromagnetic wave — vibrations are perpendicular to the direction of travel.'},
+    {q:'What is the formula connecting speed, frequency and wavelength of light?', opts:['c = f/λ','c = f×λ','c = λ/f','f = c×λ'], ans:1, exp:'c = f × λ. Speed = frequency × wavelength. This applies to all electromagnetic waves!'}
+  ],
+  's2': [
+    {q:'What is the angle between a normal and a surface?', opts:['0°','45°','90°','180°'], ans:2, exp:'A normal is perpendicular to the surface, so the angle between them is always 90°!'},
+    {q:'In New Cartesian sign convention, distances measured in the direction of incident light are:', opts:['Negative','Zero','Positive','Undefined'], ans:2, exp:'In New Cartesian convention, distances in the direction of incident light are positive (+).'},
+    {q:'Which ray through a concave mirror reflects parallel to the principal axis?', opts:['Ray through C','Ray through F','Ray parallel to axis','Ray at 45°'], ans:1, exp:'A ray passing through the focus (F) reflects parallel to the principal axis — this is one of the key ray drawing rules!'},
+    {q:'What is the relationship between focal length (f) and radius of curvature (R)?', opts:['f = R','f = R/2','f = 2R','f = R²'], ans:1, exp:'For a spherical mirror, focal length = half the radius of curvature: f = R/2.'}
+  ],
+  's3': [
+    {q:'What is the first law of reflection?', opts:['Incident ray bends at the surface','Angle of incidence = angle of reflection','Light slows down in glass','Image is always virtual'], ans:1, exp:'First Law: Angle of incidence always equals angle of reflection (∠i = ∠r).'},
+    {q:'What type of image does a plane mirror always form?', opts:['Real and inverted','Virtual and magnified','Virtual, erect, same size','Real and diminished'], ans:2, exp:'A plane mirror ALWAYS forms a virtual, erect, same-sized image at the same distance behind the mirror!'},
+    {q:'A concave mirror is used as a dentist\'s mirror because it forms:', opts:['Real, inverted image','Virtual, erect, magnified image','Small inverted image','Diminished image'], ans:1, exp:'When object is between F and P, concave mirror forms virtual, erect, MAGNIFIED image — perfect for examining teeth!'},
+    {q:'Which mirror always forms a virtual, erect, diminished image regardless of object position?', opts:['Concave mirror','Plane mirror','Convex mirror','All mirrors'], ans:2, exp:'Convex mirror ALWAYS forms virtual, erect, diminished image — that\'s why it\'s used as a rear-view mirror for wide field of view!'},
+    {q:'If an object is at the centre of curvature (C) of a concave mirror, the image is:', opts:['At F','At infinity','Also at C','Between F and C'], ans:2, exp:'When object is at C (u = 2f), image also forms at C. It is real, inverted, and same size (m = −1).'},
+    {q:'AMBULANCE is written in reverse on vehicles because:', opts:['It looks nice','Drivers read it correctly in rear-view mirror (plane mirror)','It is an international law','It helps at night'], ans:1, exp:'Due to lateral inversion by plane mirrors, the reversed writing appears correctly when seen in a car\'s rear-view mirror!'}
+  ],
+  's4': [
+    {q:'What does Snell\'s Law state?', opts:['∠i = ∠r','n₁ sin θ₁ = n₂ sin θ₂','f = R/2','P = 1/f'], ans:1, exp:'Snell\'s Law: n₁ sin θ₁ = n₂ sin θ₂ — this describes how light bends when changing medium.'},
+    {q:'Light travels from air into glass. What happens to its speed?', opts:['It increases','It stays the same','It decreases','It becomes zero'], ans:2, exp:'Light slows down when entering a denser medium like glass. n = c/v, so v = c/n (smaller than c).'},
+    {q:'A convex lens is also called a:', opts:['Diverging lens','Converging lens','Plane lens','Concave lens'], ans:1, exp:'A convex lens converges parallel rays to a focus — so it\'s called a converging lens!'},
+    {q:'What is the SI unit of power of a lens?', opts:['Watt','Metre','Dioptre','Newton'], ans:2, exp:'Power of a lens P = 1/f is measured in Dioptres (D). 1 D = 1 m⁻¹.'},
+    {q:'If a convex lens has focal length 25 cm, its power is:', opts:['4 D','0.25 D','40 D','2.5 D'], ans:0, exp:'P = 1/f = 1/0.25 m = 4 D. Remember: convert cm to m first!'},
+    {q:'A concave lens always forms what type of image?', opts:['Real, inverted','Real, erect','Virtual, erect, diminished','Virtual, inverted, magnified'], ans:2, exp:'A concave (diverging) lens ALWAYS forms virtual, erect, diminished images on the same side as the object!'}
+  ],
+  's5': [
+    {q:'What are the TWO conditions required for TIR?', opts:['Rarer to denser medium, any angle','Denser to rarer medium, angle > critical angle','Denser to rarer medium, angle < critical angle','Any medium, angle = 90°'], ans:1, exp:'TIR requires: (1) Light going from denser to rarer medium, AND (2) angle of incidence > critical angle.'},
+    {q:'The critical angle for glass (n=1.5) is approximately:', opts:['28°','41.8°','60°','90°'], ans:1, exp:'sin θc = 1/n = 1/1.5 = 0.667, so θc = sin⁻¹(0.667) ≈ 41.8°.'},
+    {q:'Why do diamonds sparkle so brilliantly?', opts:['They emit light','Very high n, small critical angle causes multiple TIR','They absorb UV light','They have a special surface coating'], ans:1, exp:'Diamond has n = 2.42, giving a tiny critical angle of ~24.4°. Light bounces around multiple times by TIR before emerging — creating brilliant sparkle!'},
+    {q:'Optical fibres use which phenomenon for light transmission?', opts:['Reflection from silver coating','Total Internal Reflection','Diffraction','Interference'], ans:1, exp:'Optical fibres transmit light through repeated Total Internal Reflection inside the fibre core — no energy loss!'}
+  ],
+  's6': [
+    {q:'In VIBGYOR, which colour bends the MOST in a prism?', opts:['Red','Yellow','Green','Violet'], ans:3, exp:'Violet has the highest refractive index in glass so it bends/deviates the most. Red bends the least.'},
+    {q:'What is the correct order of colours in a rainbow from top to bottom?', opts:['VIBGYOR','ROYGBIV','GYBVIOR','RYGVIB'], ans:1, exp:'In a primary rainbow: Red is at top (42°) and Violet at bottom (40°) = ROYGBIV from top to bottom!'},
+    {q:'How many internal reflections occur in forming a PRIMARY rainbow?', opts:['0','1','2','3'], ans:1, exp:'Primary rainbow: 1 internal reflection inside each raindrop. Secondary rainbow: 2 reflections (fainter, colours reversed).'},
+    {q:'The splitting of white light into its constituent colours is called:', opts:['Reflection','Diffraction','Dispersion','Refraction'], ans:2, exp:'Dispersion is the splitting of white light into its component colours due to different wavelengths travelling at different speeds in glass.'},
+    {q:'What colours mix to form white light?', opts:['Only red and blue','VIBGYOR all together','Only primary colours R,G,B','Red and green only'], ans:1, exp:'White light = all wavelengths of VIBGYOR together. A prism splits white light into these, and combining them back gives white light!'}
+  ],
+  's7': [
+    {q:'What happens when two light waves meet in phase (crest meets crest)?', opts:['They cancel out (dark)','They add up (bright)','They stop','They change colour'], ans:1, exp:'Constructive interference: when waves are in phase, they add up, producing a BRIGHT fringe!'},
+    {q:'In a double-slit experiment, if fringe width β = λD/d, what happens to β if wavelength λ doubles?', opts:['Halves','Stays same','Doubles','Quadruples'], ans:2, exp:'β = λD/d — β is directly proportional to λ. If λ doubles, β also doubles!'},
+    {q:'Iridescent colours on soap bubbles are due to:', opts:['Refraction only','Reflection only','Interference of light waves','Diffraction'], ans:2, exp:'Soap bubbles show colours due to interference of light reflected from the inner and outer surfaces of the thin soap film!'},
+    {q:'Diffraction is most noticeable when the slit size is:', opts:['Very large','Much larger than wavelength','Comparable to the wavelength','Zero'], ans:2, exp:'Diffraction is most prominent when the slit width is comparable to the wavelength of light. If the slit is too large, light doesn\'t bend much.'}
+  ],
+  's8': [
+    {q:'Why is the sky blue?', opts:['Blue light is absorbed by clouds','Blue light is scattered more by air molecules (Rayleigh scattering)','The sky reflects the ocean','Water vapour is blue'], ans:1, exp:'Rayleigh scattering: I ∝ 1/λ⁴. Shorter wavelengths (blue) scatter much more than longer ones (red). Scattered blue light fills the sky!'},
+    {q:'Why does the Sun appear red/orange at sunset?', opts:['The Sun cools down at sunset','Blue light scattered away, only red/orange reaches us','The atmosphere absorbs blue light','Red light is reflected more'], ans:1, exp:'At sunset, sunlight travels through more atmosphere. Blue light is scattered away en route, leaving red and orange to reach our eyes directly.'},
+    {q:'A mirage in a desert is caused by:', opts:['Reflection from sand','Refraction and TIR in heated air layers','Scattering by dust','Diffraction around sand grains'], ans:1, exp:'Hot air near ground is less dense (lower n). Light from sky bends gradually through layers, eventually hitting TIR angle — the sky image appears reflected on the ground!'},
+    {q:'The Tyndall Effect is seen when light passes through a:', opts:['Vacuum','Pure water','Colloidal solution','Perfect mirror'], ans:2, exp:'Tyndall Effect: light path becomes visible in a colloid (tiny particles suspended in medium) because particles scatter light, making the beam visible.'},
+    {q:'What colour would the sky be on the Moon?', opts:['Blue','Red','White','Black'], ans:3, exp:'The Moon has no atmosphere, so there\'s no air to scatter light. Without scattering, the sky appears pitch black even during daytime on the Moon!'}
+  ],
+  's9': [
+    {q:'Who discovered the Raman Effect and in what year?', opts:['Einstein, 1905','Newton, 1666','C.V. Raman, 1928','Bohr, 1913'], ans:2, exp:'Sir C.V. Raman discovered the Raman Effect on 28 February 1928. This day is celebrated as National Science Day in India!'},
+    {q:'In Raman scattering, the scattered light has:', opts:['Same frequency as incident light','Different frequency from incident light','No frequency','Higher speed'], ans:1, exp:'Raman scattering is inelastic — the scattered photon exchanges energy with the molecule, changing its frequency (colour)!'},
+    {q:'India celebrates National Science Day on 28 February to honour:', opts:['Independence Day of Science','C.V. Raman\'s discovery of Raman Effect','Launch of first Indian satellite','Nehru\'s birthday'], ans:1, exp:'28 February 1928 was the day C.V. Raman announced his discovery. India celebrates National Science Day on this date!'},
+    {q:'Raman spectroscopy is useful because:', opts:['It destroys the sample to analyse it','It gives a unique molecular fingerprint non-destructively','It requires very large samples','It only works on liquids'], ans:1, exp:'Raman spectroscopy creates a unique spectrum for each substance — like a fingerprint — and doesn\'t damage the sample!'}
+  ],
+  's10': [
+    {q:'Which part of the eye is responsible for controlling the amount of light entering?', opts:['Cornea','Retina','Iris (pupil)','Lens'], ans:2, exp:'The iris controls pupil size. In bright light, the iris contracts (small pupil). In dim light, iris dilates (large pupil) to let in more light!'},
+    {q:'Which cells on the retina are responsible for colour vision?', opts:['Rods','Cones','Bipolar cells','Ganglion cells'], ans:1, exp:'Cones are responsible for colour vision. There are three types sensitive to red, green, and blue light. Cones work best in bright light.'},
+    {q:'What is the normal near point (least distance of distinct vision) for a human eye?', opts:['10 cm','15 cm','25 cm','50 cm'], ans:2, exp:'The normal near point is 25 cm (also called D). This is the closest distance at which a normal adult eye can see clearly without strain.'},
+    {q:'What is ACCOMMODATION of the eye?', opts:['Adjusting to darkness','Changing lens curvature to focus at different distances','Colour detection','Binocular vision'], ans:1, exp:'Accommodation is the eye\'s ability to change the focal length of the crystalline lens by adjusting its curvature to focus on objects at various distances.'},
+    {q:'The image formed on the retina is:', opts:['Virtual and erect','Real and inverted','Virtual and inverted','Real and erect'], ans:1, exp:'The eye (like a camera) forms a real, inverted image on the retina. The brain then processes and "flips" it so we perceive everything right-side up!'}
+  ],
+  's11': [
+    {q:'A person with myopia (short-sightedness) uses which type of corrective lens?', opts:['Convex (converging)','Concave (diverging)','Cylindrical','Bifocal'], ans:1, exp:'Myopia: image forms before retina. A CONCAVE lens diverges rays, moving the image back onto the retina. Concave lens has negative power.'},
+    {q:'In hypermetropia, where does the image form?', opts:['In front of the retina','On the retina','Behind the retina','At the cornea'], ans:2, exp:'In hypermetropia, the eyeball is too short so the image would form BEHIND the retina. A convex lens corrects this.'},
+    {q:'A person\'s far point is only 4 m. What power lens do they need?', opts:['+0.25 D','-0.25 D','+4 D','-4 D'], ans:1, exp:'Myopia correction: P = -1/far point(m) = -1/4 = -0.25 D. Negative power → concave lens.'},
+    {q:'Presbyopia is an age-related condition where:', opts:['The eye becomes too long','The lens loses flexibility and accommodation reduces','The cornea becomes irregular','The retina detaches'], ans:1, exp:'Presbyopia occurs naturally with ageing. The crystalline lens gradually loses its flexibility, reducing the ability to accommodate (focus at different distances).'},
+    {q:'Astigmatism is corrected using:', opts:['Concave lens','Convex lens','Cylindrical (toric) lens','Plane mirror'], ans:2, exp:'Astigmatism is caused by irregular cornea/lens shape. Cylindrical lenses compensate by having different curvatures in different meridians to correct the uneven focus.'}
+  ],
+  's12': [
+    {q:'What are the primary colours of LIGHT?', opts:['Red, Yellow, Blue','Cyan, Magenta, Yellow','Red, Green, Blue','Red, Orange, Yellow'], ans:2, exp:'Primary colours of light are Red, Green, and Blue (RGB). Mixing all three gives white light! This is called additive colour mixing.'},
+    {q:'What colour do you get when Red and Green lights are mixed?', opts:['Orange','Yellow','Cyan','Magenta'], ans:1, exp:'Red + Green light = Yellow! This is additive colour mixing. (In paints, red + yellow = orange, but light works differently!)'},
+    {q:'Why does a red rose appear black under blue light?', opts:['Red absorbs blue light and has nothing red to reflect back','Blue light is too strong','The eye adjusts to the light','Red is the darkest colour'], ans:0, exp:'A red object reflects only red light and absorbs everything else. Under blue light (no red component), the rose has nothing to reflect — it appears black!'},
+    {q:'What are complementary colours of light?', opts:['Colours next to each other in the spectrum','Colour pairs that produce white light when mixed','Primary colours only','Colours that absorb each other'], ans:1, exp:'Complementary colours are pairs that mix to produce white: Red + Cyan = White, Green + Magenta = White, Blue + Yellow = White!'}
+  ]
+};
+
+const quizScores = JSON.parse(localStorage.getItem('lightworld_quizscores') || '{}');
+
+function buildQuizzes() {
+  Object.keys(allQuizzes).forEach(section => {
+    const container = document.getElementById(`q${section}-container`);
+    if(!container) return;
+    const qs = allQuizzes[section];
+    let html = '';
+    qs.forEach((q, qi) => {
+      html += `<div class="quiz-q" id="${section}-q${qi}">
+        <div class="q-text">${qi+1}. ${q.q}</div>
+        <div class="quiz-options">`;
+      q.opts.forEach((opt, oi) => {
+        html += `<button class="quiz-opt" onclick="answerQuiz('${section}',${qi},${oi},${q.ans},'${escStr(q.exp)}')">${String.fromCharCode(65+oi)}. ${opt}</button>`;
+      });
+      html += `</div><div class="quiz-explanation" id="${section}-exp${qi}">${q.exp}</div></div>`;
+    });
+    container.innerHTML = html;
+    // Restore previous answers
+    if(quizScores[section]) {
+      document.getElementById(`q${section}-score`).textContent = quizScores[section];
+    }
+  });
+}
+
+function escStr(s){ return s.replace(/'/g,"\\'").replace(/"/g,'&quot;'); }
+
+const answeredQuestions = {};
+function answerQuiz(section, qi, chosen, correct, exp) {
+  const key = `${section}-${qi}`;
+  if(answeredQuestions[key]) return;
+  answeredQuestions[key] = true;
+  
+  const qDiv = document.getElementById(`${section}-q${qi}`);
+  const btns = qDiv.querySelectorAll('.quiz-opt');
+  btns.forEach((btn, i) => {
+    btn.classList.add('reveal');
+    if(i === correct) btn.classList.add('correct');
+    else if(i === chosen) btn.classList.add('wrong');
+  });
+  
+  const expDiv = document.getElementById(`${section}-exp${qi}`);
+  expDiv.classList.add('show');
+  
+  if(chosen === correct) {
+    analytics.correct++;
+    analytics.score++;
+    let secScore = (quizScores[section]||0)+1;
+    quizScores[section] = secScore;
+    document.getElementById(`q${section}-score`).textContent = secScore;
+  }
+  
+  analytics.quizzes++;
+  localStorage.setItem('lightworld_analytics', JSON.stringify(analytics));
+  localStorage.setItem('lightworld_quizscores', JSON.stringify(quizScores));
+  document.getElementById('an-quizzes').textContent = analytics.quizzes;
+  document.getElementById('an-score').textContent = analytics.score;
+  document.getElementById('an-streak').textContent = analytics.correct;
+  document.getElementById('sidebar-score').textContent = analytics.score;
+}
+
+// ============================================================
+// SCORE BOARD MODAL
+// ============================================================
+const sectionNames = {s1:'What is Light',s2:'Ray Optics',s3:'Reflection',s4:'Refraction',s5:'TIR',s6:'Spectrum & Rainbow',s7:'Interference & Diffraction',s8:'Scattering & Mirages',s9:'Raman Effect',s10:'Human Eye',s11:'Eye Defects',s12:'Colour & Light'};
+const maxScores = {s1:5,s2:4,s3:6,s4:6,s5:4,s6:5,s7:4,s8:5,s9:4,s10:5,s11:5,s12:4};
+
+function showScoreBoard() {
+  let total = 0, maxTotal = 0;
+  let html = '<table style="width:100%;border-collapse:collapse;font-size:13px;">';
+  html += '<tr style="background:#2d6a4f;color:#fff;"><th style="padding:8px;">Topic</th><th style="padding:8px;">Score</th><th style="padding:8px;">Result</th></tr>';
+  Object.keys(sectionNames).forEach(s => {
+    const sc = quizScores[s]||0;
+    const max = maxScores[s];
+    total += sc; maxTotal += max;
+    const pct = (sc/max*100).toFixed(0);
+    const emoji = sc === max ? '🌟' : sc >= max*0.6 ? '✅' : sc > 0 ? '🔄' : '⏳';
+    html += `<tr style="border-bottom:1px solid #eee;">
+      <td style="padding:8px;">${emoji} ${sectionNames[s]}</td>
+      <td style="padding:8px;font-weight:700;color:var(--accent);">${sc}/${max}</td>
+      <td style="padding:8px;">
+        <div style="background:#eee;border-radius:4px;height:8px;width:80px;display:inline-block;">
+          <div style="background:${sc===max?'#f39c12':'#3a7d44'};height:100%;width:${pct}%;border-radius:4px;"></div>
+        </div> ${pct}%
+      </td>
+    </tr>`;
+  });
+  html += `<tr style="background:#e8f5e9;font-weight:800;"><td style="padding:10px;">🏆 TOTAL</td><td style="padding:10px;color:var(--accent);">${total}/${maxTotal}</td><td style="padding:10px;">${(total/maxTotal*100).toFixed(0)}%</td></tr>`;
+  html += '</table>';
+  
+  const msg = total === maxTotal ? '🎉 Perfect score! You\'re a Light Scientist!' 
+    : total >= maxTotal*0.8 ? '⭐ Excellent! Nearly perfect!'
+    : total >= maxTotal*0.6 ? '✅ Good job! Keep exploring!'
+    : '📚 Keep learning and try again!';
+  html = `<p style="text-align:center;font-size:15px;font-weight:800;color:var(--accent);margin-bottom:12px;">${msg}</p>` + html;
+  
+  document.getElementById('score-details').innerHTML = html;
+  document.getElementById('score-modal').style.display = 'flex';
+}
+
+function closeScoreBoard() {
+  document.getElementById('score-modal').style.display = 'none';
+}
+
+// ============================================================
+// INITIALISE
+// ============================================================
+document.addEventListener('DOMContentLoaded', function() {
+  buildQuizzes();
+  drawMirrorSim();
+  drawLensSim();
+  drawTIRSim();
+  setTimeout(drawPrismSim, 200);
+  setTimeout(drawInterferenceSim, 200);
+  setTimeout(drawColourSim, 200);
+  // Restore sidebar score
+  document.getElementById('sidebar-score').textContent = analytics.score;
+  updateProgress();
+});
+
+// Close modal on outside click
+document.getElementById('score-modal').addEventListener('click', function(e) {
+  if(e.target === this) closeScoreBoard();
+});
+
+// Re-draw simulations on window resize
+window.addEventListener('resize', function() {
+  if(currentSection === 's3') drawMirrorSim();
+  if(currentSection === 's4') drawLensSim();
+  if(currentSection === 's5') drawTIRSim();
+});
+</script>
+</body>
+</html>
